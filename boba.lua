@@ -1,15 +1,11 @@
 --[[
     BobaV1 v1.0.0 — Fallen Survival
-    Standalone cheat script — no external dependencies
-    Custom UI, boba amber theme, all features built-in
+    Standalone cheat script for Project Vector
     
-    Paste into executor:
+    Paste into Vector:
     utility.LoadUrl("https://raw.githubusercontent.com/boqnpenev1-design/BobaV1/main/boba.lua")
 ]]
 
--- ═══════════════════════════════════════════════════════
--- BobaV1 Module Framework
--- ═══════════════════════════════════════════════════════
 BobaV1 = BobaV1 or {}
 BobaV1._mods = {}
 BobaV1.VERSION = "1.0.0"
@@ -21,9 +17,6 @@ function BobaV1.require(name)
     return nil
 end
 
--- ═══════════════════════════════════════════════════════
--- core.env — Environment detection & safe calls
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.env"] = (function()
     local M = {}
     function M.safe_call(fn, ...)
@@ -48,10 +41,6 @@ BobaV1._mods["core.env"] = (function()
             local ok, p = pcall(entity.get_local_player)
             if ok and p then return p end
         end
-        if game then
-            local lp = game.LocalPlayer or game.local_player
-            if lp then return lp end
-        end
         return nil
     end
     function M.get_players()
@@ -59,25 +48,11 @@ BobaV1._mods["core.env"] = (function()
             local ok, list = pcall(entity.get_players)
             if ok and type(list) == "table" then return list end
         end
-        if game and game.get_service then
-            local ok, svc = pcall(game.get_service, "Players")
-            if ok and svc then
-                local ok2, players = pcall(function()
-                    if svc.GetPlayers then return svc:GetPlayers() end
-                    if svc.get_players then return svc:get_players() end
-                    return {}
-                end)
-                if ok2 then return players end
-            end
-        end
         return {}
     end
     function M.get_character(player)
         if not player then return nil end
         return player.Character or player.character
-    end
-    function M.get_humanoid(player)
-        return player and (player.Humanoid or player.humanoid)
     end
     function M.get_team(player)
         if not player then return nil end
@@ -95,9 +70,6 @@ BobaV1._mods["core.env"] = (function()
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.api_aliases — Normalize executor API names
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.api_aliases"] = (function()
     local M = {}
     M._applied = false
@@ -106,22 +78,16 @@ BobaV1._mods["core.api_aliases"] = (function()
         M._applied = true
         if utility then
             utility.get_tick_count = utility.get_tick_count or utility.GetTickCount
-            utility.http_get = utility.http_get or utility.HttpGet
-            utility.world_to_screen = utility.world_to_screen or utility.WorldToScreen
             utility.get_delta_time = utility.get_delta_time or utility.GetDeltaTime
-            utility.get_camera_angles = utility.get_camera_angles or utility.GetCameraAngles
         end
         if raycast then
             raycast.is_visible = raycast.is_visible or raycast.IsVisible
-            raycast.cast = raycast.cast or raycast.Cast
             raycast.set_silent_target = raycast.set_silent_target or raycast.SetSilentTarget
-            raycast.track_silent_target = raycast.track_silent_target or raycast.TrackSilentTarget
             raycast.stop_silent_tracking = raycast.stop_silent_tracking or raycast.StopSilentTracking
             raycast.enable_silent_hook = raycast.enable_silent_hook or raycast.EnableSilentHook
         end
         if camera then
             camera.get_position = camera.get_position or camera.GetPosition
-            camera.get_look_vector = camera.get_look_vector or camera.GetLookVector
             camera.get_angles = camera.get_angles or camera.GetAngles
         end
         if draw then
@@ -132,27 +98,12 @@ BobaV1._mods["core.api_aliases"] = (function()
             draw.circle = draw.circle or draw.Circle
             draw.circle_filled = draw.circle_filled or draw.CircleFilled
             draw.world_to_screen = draw.world_to_screen or draw.WorldToScreen
-            draw.load_image = draw.load_image or draw.LoadImage
-            draw.image = draw.image or draw.Image
-        end
-        if memory then
-            memory.read = memory.read or memory.Read
-            memory.write = memory.write or memory.Write
-        end
-        if exploits then
-            exploits.ApplyChamsToInstance = exploits.ApplyChamsToInstance or (exploits.apply_chams_to_instance)
-            exploits.RevertChams = exploits.RevertChams or exploits.revert_chams
-            exploits.SetChamsMode = exploits.SetChamsMode or exploits.set_chams_mode
-            exploits.SetChamsColor = exploits.SetChamsColor or exploits.set_chams_color
         end
     end
     M.apply()
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.settings — Unified settings store
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.settings"] = (function()
     local M = {}
     local _values = {}
@@ -162,12 +113,7 @@ BobaV1._mods["core.settings"] = (function()
         local old = _values[key]
         _values[key] = value
         if old ~= value and _callbacks[key] then
-            for _, fn in ipairs(_callbacks[key]) do
-                pcall(fn, value, old)
-            end
-        end
-        if menu and menu.set then
-            pcall(menu.set, key, value)
+            for _, fn in ipairs(_callbacks[key]) do pcall(fn, value, old) end
         end
     end
     function M.get(key, default)
@@ -186,83 +132,39 @@ BobaV1._mods["core.settings"] = (function()
         local v = M.get(key, default)
         return v == true or v == 1
     end
-    function M.enabled(key)
-        return M.bool(key, false)
-    end
+    function M.enabled(key) return M.bool(key, false) end
     function M.num(key, default)
         return tonumber(M.get(key, default)) or (tonumber(default) or 0)
-    end
-    function M.str(key, default)
-        return tostring(M.get(key, default) or default or "")
-    end
-    function M.combo_index(key, labels, default)
-        local v = M.get(key)
-        if type(v) == "number" then return v end
-        if type(v) == "string" then
-            for i, label in ipairs(labels) do
-                if label == v then return i - 1 end
-            end
-        end
-        return default or 0
-    end
-    function M.multi(key, index, default)
-        local v = M.get(key)
-        if type(v) == "table" then
-            return v[index] == true
-        end
-        return default or false
     end
     function M.on_change(key, fn)
         if not key or type(fn) ~= "function" then return end
         _callbacks[key] = _callbacks[key] or {}
-        table.insert(_callbacks[key], fn)
+        _callbacks[key][#_callbacks[key]+1] = fn
     end
     if menu and menu.set_callback then
-        pcall(menu.set_callback, function(id, value)
+        pcall(menu.set_callback, "on_value_changed", function(id, value)
             _values[id] = value
             if _callbacks[id] then
-                for _, fn in ipairs(_callbacks[id]) do
-                    pcall(fn, value)
-                end
+                for _, fn in ipairs(_callbacks[id]) do pcall(fn, value) end
             end
         end)
     end
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.math_util — Math helpers
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.math_util"] = (function()
     local M = {}
-    M.PI = math.pi
-    M.TAU = math.pi * 2
     function M.clamp(v, lo, hi)
         if v < lo then return lo end
         if v > hi then return hi end
         return v
     end
     function M.lerp(a, b, t) return a + (b - a) * t end
-    function M.distance3(dx, dy, dz)
-        return math.sqrt(dx * dx + dy * dy + dz * dz)
-    end
-    function M.distance2(dx, dy)
-        return math.sqrt(dx * dx + dy * dy)
-    end
-    function M.atan2(y, x)
-        return math.atan2(y, x)
-    end
-    function M.normalize_angle(a)
-        while a > math.pi do a = a - M.TAU end
-        while a < -math.pi do a = a + M.TAU end
-        return a
-    end
+    function M.distance3(dx, dy, dz) return math.sqrt(dx*dx + dy*dy + dz*dz) end
+    function M.distance2(dx, dy) return math.sqrt(dx*dx + dy*dy) end
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.draw_util — Drawing helpers
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.draw_util"] = (function()
     local M = {}
     function M.screen_size()
@@ -273,105 +175,50 @@ BobaV1._mods["core.draw_util"] = (function()
         return 1920, 1080
     end
     function M.line(x1, y1, x2, y2, col, thick)
-        if draw and draw.line then
-            pcall(draw.line, x1, y1, x2, y2, col, thick or 1)
-        end
+        if draw and draw.line then draw.line(x1, y1, x2, y2, col, thick or 1) end
     end
     function M.rect(x, y, w, h, col, rounding, thick)
-        if draw and draw.rect then
-            pcall(draw.rect, x, y, w, h, col, rounding or 0, thick or 1)
-        end
+        if draw and draw.rect then draw.rect(x, y, w, h, col, rounding or 0, thick or 1) end
     end
     function M.rect_filled(x, y, w, h, col, rounding)
-        if draw and draw.rect_filled then
-            pcall(draw.rect_filled, x, y, w, h, col, rounding or 0)
-        end
+        if draw and draw.rect_filled then draw.rect_filled(x, y, w, h, col, rounding or 0) end
     end
     function M.text(x, y, msg, col, size)
-        if draw and draw.text then
-            pcall(draw.text, x, y, msg, col, size or 13)
-        end
+        if draw and draw.text then draw.text(x, y, msg, col, size or 13) end
     end
     function M.text_centered(x, y, msg, col, size)
         size = size or 13
         if draw and draw.text then
-            local tw = 0
+            local tw = #msg * (size * 0.55)
             if draw.get_text_size then
                 local ok, w = pcall(draw.get_text_size, msg, size)
-                if ok then tw = w or 0 end
-            else
-                tw = #msg * (size * 0.55)
+                if ok and w then tw = w end
             end
-            pcall(draw.text, x - tw * 0.5, y, msg, col, size)
+            draw.text(x - tw * 0.5, y, msg, col, size)
         end
     end
     function M.circle(x, y, r, col, filled, segments)
         segments = segments or 24
         if filled and draw and draw.circle_filled then
-            pcall(draw.circle_filled, x, y, r, col, segments)
+            draw.circle_filled(x, y, r, col, segments)
         elseif draw and draw.circle then
-            pcall(draw.circle, x, y, r, col, segments, 1)
+            draw.circle(x, y, r, col, segments, 1)
         end
     end
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.text_util — Text sanitizer
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.text_util"] = (function()
     local M = {}
     function M.sanitize(text)
         if type(text) ~= "string" then return tostring(text or "") end
-        text = text:gsub("[\r\n\t]", " ")
-        text = text:gsub("%s+", " ")
-        text = text:gsub("^%s+", ""):gsub("%s+$", "")
+        text = text:gsub("[\r\n\t]", " "):gsub("%s+", " "):gsub("^%s+", ""):gsub("%s+$", "")
         if #text > 256 then text = text:sub(1, 256) .. "..." end
         return text
     end
-    function M.truncate(text, max)
-        max = max or 32
-        if #text <= max then return text end
-        return text:sub(1, max - 3) .. "..."
-    end
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.cache — Time-based caching
--- ═══════════════════════════════════════════════════════
-BobaV1._mods["core.cache"] = (function()
-    local M = {}
-    local _entries = {}
-    local function now()
-        if utility and utility.get_tick_count then
-            local ok, t = pcall(utility.get_tick_count)
-            if ok then return t end
-        end
-        return 0
-    end
-    function M.get(key, ttl_ms)
-        local entry = _entries[key]
-        if not entry then return nil end
-        if ttl_ms and (now() - entry.t) > ttl_ms then
-            _entries[key] = nil
-            return nil
-        end
-        return entry.v
-    end
-    function M.set(key, value)
-        _entries[key] = { v = value, t = now() }
-    end
-    function M.clear(key)
-        if key then _entries[key] = nil
-        else _entries = {} end
-    end
-    return M
-end)()
-
--- ═══════════════════════════════════════════════════════
--- core.notify — Toast notification system
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.notify"] = (function()
     local draw_util = BobaV1.require("core.draw_util")
     local text_util = BobaV1.require("core.text_util")
@@ -389,19 +236,17 @@ BobaV1._mods["core.notify"] = (function()
         for _, n in ipairs(queue) do
             if n.msg == msg and (tick() - n.time) < 3000 then return end
         end
-        table.insert(queue, {
+        queue[#queue+1] = {
             msg = msg, type = ntype, time = tick(),
             duration = duration_ms, alpha = 0, x_off = 80, y = 0,
-        })
+        }
         while #queue > 6 do table.remove(queue, 1) end
     end
-    function M.show(msg, ntype, dur) M.toast(msg, ntype, dur) end
     function M.success(msg, dur) M.toast(msg, "success", dur) end
     function M.warning(msg, dur) M.toast(msg, "warning", dur) end
     function M.error(msg, dur) M.toast(msg, "danger", dur) end
     function M.info(msg, dur) M.toast(msg, "info", dur) end
-
-    local TOAST_COLORS = {
+    local COLORS = {
         success = {0.32, 0.81, 0.40, 1},
         warning = {1.0, 0.83, 0.23, 1},
         danger = {1.0, 0.42, 0.42, 1},
@@ -421,16 +266,16 @@ BobaV1._mods["core.notify"] = (function()
                 table.remove(queue, i)
             else
                 local fade = 350
-                local target_alpha = 1
-                if elapsed < fade then target_alpha = elapsed / fade
-                elseif elapsed > n.duration - fade then target_alpha = (n.duration - elapsed) / fade end
-                n.alpha = lerp(n.alpha or 0, target_alpha, 0.18)
+                local ta = 1
+                if elapsed < fade then ta = elapsed / fade
+                elseif elapsed > n.duration - fade then ta = (n.duration - elapsed) / fade end
+                n.alpha = lerp(n.alpha or 0, ta, 0.18)
                 local slide = 0
                 if elapsed > n.duration - fade then slide = 60 end
                 n.x_off = lerp(n.x_off or 80, slide, 0.15)
                 if n.y == 0 then n.y = target_y end
                 n.y = lerp(n.y, target_y, 0.2)
-                local accent = TOAST_COLORS[n.type] or TOAST_COLORS.info
+                local accent = COLORS[n.type] or COLORS.info
                 local tw = #n.msg * (font * 0.55)
                 local box_w = tw + pad * 2 + 4
                 local box_h = font + pad * 2
@@ -449,12 +294,8 @@ BobaV1._mods["core.notify"] = (function()
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.esp_util — ESP drawing helpers
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.esp_util"] = (function()
     local draw_util = BobaV1.require("core.draw_util")
-    local settings = BobaV1.require("core.settings")
     local M = {}
     M.AIM_BONES = {
         "Closest","Head","UpperTorso","LowerTorso","HumanoidRootPart",
@@ -476,31 +317,25 @@ BobaV1._mods["core.esp_util"] = (function()
         if not x or not y or not z then return 0, 0, false end
         if draw and draw.world_to_screen then
             local ok, a, b, c = pcall(draw.world_to_screen, x, y, z)
-            if ok and a then
-                if type(a) == "number" then
-                    return a, b, c ~= false and c ~= 0
-                end
+            if ok and a and type(a) == "number" then
+                return a, b, c ~= false and c ~= 0
             end
         end
         return 0, 0, false
     end
     function M.draw_skeleton_bones(bones, col, thick)
         if not bones then return end
-        thick = thick or 1.5
         for _, pair in ipairs(M.SKELETON_PAIRS) do
             local a = bones[pair[1]]
             local b = bones[pair[2]]
             if a and b and a.x and b.x then
-                draw_util.line(a.x, a.y, b.x, b.y, col, thick)
+                draw_util.line(a.x, a.y, b.x, b.y, col, thick or 1.5)
             end
         end
     end
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.entity_props — Entity property reader
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.entity_props"] = (function()
     local env = BobaV1.require("core.env")
     local M = {}
@@ -512,14 +347,11 @@ BobaV1._mods["core.entity_props"] = (function()
             if char then
                 hum = env.safe_call(function()
                     if char.FindFirstChildOfClass then return char:FindFirstChildOfClass("Humanoid") end
-                    if char.find_first_child_of_class then return char:find_first_child_of_class("Humanoid") end
                 end)
             end
         end
         if not hum then return nil, nil end
-        local hp = hum.Health or hum.health
-        local maxhp = hum.MaxHealth or hum.max_health or 100
-        return tonumber(hp), tonumber(maxhp)
+        return tonumber(hum.Health or hum.health), tonumber(hum.MaxHealth or hum.max_health or 100)
     end
     function M.is_alive(player)
         local hp = M.get_health(player)
@@ -531,10 +363,7 @@ BobaV1._mods["core.entity_props"] = (function()
             local char = env.get_character(player)
             if not char then return false end
             local state = char:FindFirstChild("StateController") or char:FindFirstChild("stateController")
-            if state then
-                local downed = state:GetAttribute("IsDowned") or state:GetAttribute("isDowned")
-                return downed == true
-            end
+            if state then return state:GetAttribute("IsDowned") == true end
             return false
         end) == true
     end
@@ -543,14 +372,11 @@ BobaV1._mods["core.entity_props"] = (function()
         local char = env.get_character(player)
         if not char then return nil end
         return env.safe_call(function()
-            local root = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("humanoidrootpart")
+            local root = char:FindFirstChild("HumanoidRootPart")
             if root then
                 local pos = root.Position or root.position
-                if pos then
-                    return {x = pos.X or pos.x, y = pos.Y or pos.y, z = pos.Z or pos.z}
-                end
+                if pos then return {x = pos.X or pos.x, y = pos.Y or pos.y, z = pos.Z or pos.z} end
             end
-            return nil
         end)
     end
     function M.get_bone_position(player, bone_name)
@@ -561,11 +387,8 @@ BobaV1._mods["core.entity_props"] = (function()
             local part = char:FindFirstChild(bone_name)
             if part then
                 local pos = part.Position or part.position
-                if pos then
-                    return {x = pos.X or pos.x, y = pos.Y or pos.y, z = pos.Z or pos.z}
-                end
+                if pos then return {x = pos.X or pos.x, y = pos.Y or pos.y, z = pos.Z or pos.z} end
             end
-            return nil
         end)
     end
     function M.get_velocity(player)
@@ -576,20 +399,16 @@ BobaV1._mods["core.entity_props"] = (function()
             local root = char:FindFirstChild("HumanoidRootPart")
             if root then
                 local vel = root.Velocity or root.velocity or root.AssemblyLinearVelocity
-                if vel then
-                    return {x = vel.X or vel.x or 0, y = vel.Y or vel.y or 0, z = vel.Z or vel.z or 0}
-                end
+                if vel then return {x = vel.X or vel.x or 0, y = vel.Y or vel.y or 0, z = vel.Z or vel.z or 0} end
             end
             return {x=0,y=0,z=0}
         end)
     end
     function M.get_name(player)
-        if not player then return "?" end
-        return player.Name or player.name or player.DisplayName or "?"
+        return player and (player.Name or player.name or "?") or "?"
     end
     function M.get_display_name(player)
-        if not player then return "?" end
-        return player.DisplayName or player.display_name or M.get_name(player)
+        return player and (player.DisplayName or player.display_name or M.get_name(player)) or "?"
     end
     function M.get_held_item(player)
         if not player then return nil end
@@ -598,22 +417,15 @@ BobaV1._mods["core.entity_props"] = (function()
         return env.safe_call(function()
             local tool = char:FindFirstChildOfClass("Tool")
             if tool then return tool.Name or tool.name end
-            return nil
         end)
     end
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.silent_ray — Silent aim raycast hooking
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.silent_ray"] = (function()
     local M = {}
     local hook_ready = false
     local tracking = false
-    M._last_origin = nil
-    M._last_target = nil
-    M._last_ok = false
     local function ray_fn(snake, pascal)
         if not raycast then return nil end
         local fn = raycast[snake] or raycast[pascal]
@@ -631,86 +443,55 @@ BobaV1._mods["core.silent_ray"] = (function()
     end
     function M.available()
         if not raycast then return false end
-        local set = ray_fn("set_silent_target", "SetSilentTarget")
-        local stop = ray_fn("stop_silent_tracking", "StopSilentTracking")
-        return set ~= nil and stop ~= nil
+        return ray_fn("set_silent_target", "SetSilentTarget") ~= nil
     end
     function M.ensure_hook()
         if not M.available() then return false end
         if hook_ready then return true end
         local enable = ray_fn("enable_silent_hook", "EnableSilentHook")
         if not enable then hook_ready = true; return true end
-        local ok, result = pcall(enable)
-        hook_ready = ok and result == true
+        local ok = pcall(enable)
+        hook_ready = ok
         return hook_ready
     end
     function M.get_camera_origin()
         if not camera then return nil end
         local get_pos = camera.get_position or camera.GetPosition
-        if not get_pos or type(get_pos) ~= "function" then return nil end
+        if type(get_pos) ~= "function" then return nil end
         local ok, pos = pcall(get_pos)
         if not ok or not pos then return nil end
-        local x = pos.x or pos.X
-        local y = pos.y or pos.Y
-        local z = pos.z or pos.Z
-        if not x then return nil end
-        return {x=x, y=y, z=z}
+        return {x = pos.x or pos.X, y = pos.y or pos.Y, z = pos.z or pos.Z}
     end
     function M.stop()
-        M._last_origin = nil
-        M._last_target = nil
-        M._last_ok = false
         tracking = false
         local stop = ray_fn("stop_silent_tracking", "StopSilentTracking")
         if stop then pcall(stop) end
     end
     function M.set_target(origin, aim_point)
-        M._last_ok = false
         if not aim_point then return false end
         origin = origin or M.get_camera_origin()
         if not origin then return false end
         if not M.ensure_hook() then return false end
         local set_fn = ray_fn("set_silent_target", "SetSilentTarget")
         if not set_fn then return false end
-        local dx = aim_point.x - origin.x
-        local dy = aim_point.y - origin.y
-        local dz = aim_point.z - origin.z
-        local origin_v = make_vec3(origin.x, origin.y, origin.z)
-        local dir = make_vec3(dx, dy, dz)
-        M._last_origin = origin
-        M._last_target = aim_point
-        local ok, result = pcall(set_fn, origin_v, dir)
-        M._last_ok = ok and (result == true or result == nil)
-        tracking = M._last_ok
-        return M._last_ok
+        local ok = pcall(set_fn, make_vec3(origin.x, origin.y, origin.z),
+            make_vec3(aim_point.x - origin.x, aim_point.y - origin.y, aim_point.z - origin.z))
+        tracking = ok
+        return ok
     end
     function M.is_tracking() return tracking end
-    function M.last_ok() return M._last_ok end
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- core.ballistic — Bullet drop & prediction
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.ballistic"] = (function()
     local math_util = BobaV1.require("core.math_util")
     local M = {}
-    function M.calculate_drop(bullet_speed, bullet_gravity, position, origin)
-        local px = position.x - origin.x
-        local py = position.y - origin.y
-        local pz = position.z - origin.z
-        local speed = math.max(bullet_speed or 950, 1)
-        local dist = math_util.distance3(px, py, pz)
-        local time = dist / speed
-        local grav = bullet_gravity or 0.55
-        local drop = 0.5 * grav * 195 * time * time
-        return drop == drop and drop or 0
-    end
     function M.predict_position(bullet_speed, bullet_gravity, velocity, position, origin)
         local speed = math.max(bullet_speed or 950, 1)
         local dist = math_util.distance3(position.x - origin.x, position.y - origin.y, position.z - origin.z)
         local time = dist / speed
-        local drop = M.calculate_drop(bullet_speed, bullet_gravity, position, origin)
+        local grav = bullet_gravity or 0.55
+        local drop = 0.5 * grav * 195 * time * time
         return {
             x = position.x + (velocity.x or 0) * time,
             y = position.y + (velocity.y or 0) * time + drop,
@@ -721,36 +502,27 @@ BobaV1._mods["core.ballistic"] = (function()
 end)()
 
 -- ═══════════════════════════════════════════════════════
--- BobaV1 MENU SYSTEM
+-- MENU SYSTEM
 -- ═══════════════════════════════════════════════════════
 BobaV1._mods["boba.menu"] = (function()
     local M = {}
     M.TAB = "BobaV1"
     M.G = {
-        SILENT_AIM = "Silent Aim",
-        GUN_MODS = "Gun Mods",
-        VISUALS = "Visuals",
-        WORLD = "World",
-        RADAR = "Radar",
-        MISC = "Misc",
+        SILENT_AIM = "Silent Aim", GUN_MODS = "Gun Mods",
+        VISUALS = "Visuals", WORLD = "World",
+        RADAR = "Radar", MISC = "Misc",
     }
     local _tab_ready = false
     local _groups = {}
 
     function M.init()
-        if _tab_ready then return end
-        if not menu then return end
-        if menu.add_tab then
-            menu.add_tab(M.TAB, "B", "full")
-        end
+        if _tab_ready or not menu then return end
+        if menu.add_tab then menu.add_tab(M.TAB) end
         _tab_ready = true
         local layout = {
-            {M.G.SILENT_AIM, "left"},
-            {M.G.GUN_MODS, "right"},
-            {M.G.VISUALS, "left"},
-            {M.G.WORLD, "right"},
-            {M.G.RADAR, "left"},
-            {M.G.MISC, "right"},
+            {M.G.SILENT_AIM, "left"}, {M.G.GUN_MODS, "right"},
+            {M.G.VISUALS, "left"}, {M.G.WORLD, "right"},
+            {M.G.RADAR, "left"}, {M.G.MISC, "right"},
         }
         for _, row in ipairs(layout) do
             local name, side = row[1], row[2]
@@ -766,32 +538,24 @@ BobaV1._mods["boba.menu"] = (function()
     end
 
     function M.toggle(group, id, label, default)
-        if not menu or not menu.add_checkbox then return end
-        menu.add_checkbox(M.TAB, group, id, label, default or false)
+        if menu and menu.add_checkbox then menu.add_checkbox(M.TAB, group, id, label, default or false) end
     end
     function M.slider(group, id, label, min, max, default, is_float)
         if not menu then return end
         if is_float or (type(default) == "number" and default ~= math.floor(default)) then
-            if menu.add_slider_float then
-                menu.add_slider_float(M.TAB, group, id, label, min, max, default or min)
-            end
+            if menu.add_slider_float then menu.add_slider_float(M.TAB, group, id, label, min, max, default or min) end
         else
-            if menu.add_slider_int then
-                menu.add_slider_int(M.TAB, group, id, label, min, max, default or min)
-            end
+            if menu.add_slider_int then menu.add_slider_int(M.TAB, group, id, label, min, max, default or min) end
         end
     end
     function M.combo(group, id, label, options, default)
-        if not menu or not menu.add_combo then return end
-        menu.add_combo(M.TAB, group, id, label, options, default or 0)
+        if menu and menu.add_combo then menu.add_combo(M.TAB, group, id, label, options, default or 0) end
     end
     function M.color(group, id, label, default)
-        if not menu or not menu.add_colorpicker then return end
-        menu.add_colorpicker(M.TAB, group, id, label, default or {1,1,1,1})
+        if menu and menu.add_colorpicker then menu.add_colorpicker(M.TAB, group, id, label, default or {1,1,1,1}) end
     end
     function M.button(group, id, label, callback)
-        if not menu or not menu.add_button then return end
-        menu.add_button(M.TAB, group, id, label, callback)
+        if menu and menu.add_button then menu.add_button(M.TAB, group, id, label, callback) end
     end
     function M.label(group, text)
         if menu and menu.add_label then menu.add_label(M.TAB, group, text) end
@@ -801,181 +565,164 @@ BobaV1._mods["boba.menu"] = (function()
     end
     function M.hotkey(group, id, label, default)
         if menu and menu.add_hotkey then
-            menu.add_hotkey(M.TAB, group, id, label, default or false)
+            menu.add_hotkey(M.TAB, group, id, label, default or 0)
         else
-            M.toggle(group, id, label, default)
+            M.toggle(group, id, label, false)
         end
     end
-
     return M
 end)()
 
 -- ═══════════════════════════════════════════════════════
--- Register all menu controls
+-- REGISTER MENU
 -- ═══════════════════════════════════════════════════════
 BobaV1._mods["boba.register_menu"] = (function()
     local M = {}
-    local bmenu = BobaV1.require("boba.menu")
-    local G = bmenu.G
+    local bm = BobaV1.require("boba.menu")
+    local G = bm.G
     local BONES = BobaV1.require("core.esp_util").AIM_BONES
-    local TARGET_TYPES = {"Closest", "Lowest HP", "Closest to Crosshair"}
-    local FOV_STYLES = {"Circle", "Filled Circle", "Cross"}
-    local BOX_MODES = {"2D", "Corner", "3D", "None"}
 
     function M.register()
-        bmenu.init()
+        bm.init()
 
-        bmenu.hotkey(G.SILENT_AIM, "boba_silent_aim", "Silent Aim", false)
-        bmenu.combo(G.SILENT_AIM, "boba_silent_target_type", "Target Type", TARGET_TYPES, 0)
-        bmenu.combo(G.SILENT_AIM, "boba_silent_bone", "Target Bone", BONES, 1)
-        bmenu.slider(G.SILENT_AIM, "boba_silent_fov", "FOV", 10, 360, 120)
-        bmenu.slider(G.SILENT_AIM, "boba_silent_max_dist", "Max Distance", 50, 2000, 800)
-        bmenu.slider(G.SILENT_AIM, "boba_silent_hit_chance", "Hit Chance", 0, 100, 100)
-        bmenu.toggle(G.SILENT_AIM, "boba_silent_hitscan", "Hitscan", false)
-        bmenu.toggle(G.SILENT_AIM, "boba_silent_sticky", "Sticky Target", false)
-        bmenu.sep(G.SILENT_AIM)
-        bmenu.label(G.SILENT_AIM, "── Visuals ──")
-        bmenu.toggle(G.SILENT_AIM, "boba_silent_draw_fov", "Draw FOV", true)
-        bmenu.combo(G.SILENT_AIM, "boba_silent_fov_style", "FOV Style", FOV_STYLES, 0)
-        bmenu.toggle(G.SILENT_AIM, "boba_silent_target_line", "Target Line", false)
-        bmenu.sep(G.SILENT_AIM)
-        bmenu.label(G.SILENT_AIM, "── Filters ──")
-        bmenu.toggle(G.SILENT_AIM, "boba_silent_ignore_team", "Ignore Teammates", true)
-        bmenu.toggle(G.SILENT_AIM, "boba_silent_ignore_downed", "Ignore Downed", true)
-        bmenu.toggle(G.SILENT_AIM, "boba_silent_visible_only", "Visible Only", false)
-        bmenu.sep(G.SILENT_AIM)
-        bmenu.label(G.SILENT_AIM, "── Bullet ──")
-        bmenu.hotkey(G.SILENT_AIM, "boba_bullet_enabled", "Bullet Manip", false)
-        bmenu.toggle(G.SILENT_AIM, "boba_bullet_body_peek", "Body Peek", false)
-        bmenu.toggle(G.SILENT_AIM, "boba_thick_bullet", "Thick Bullet", false)
-        bmenu.slider(G.SILENT_AIM, "boba_thick_bullet_mult", "Thick Multiplier", 1, 5, 2)
+        bm.hotkey(G.SILENT_AIM, "boba_silent_aim", "Silent Aim")
+        bm.combo(G.SILENT_AIM, "boba_silent_target_type", "Target Type", {"Closest","Lowest HP","Closest to Crosshair"}, 0)
+        bm.combo(G.SILENT_AIM, "boba_silent_bone", "Target Bone", BONES, 1)
+        bm.slider(G.SILENT_AIM, "boba_silent_fov", "FOV", 10, 360, 120)
+        bm.slider(G.SILENT_AIM, "boba_silent_max_dist", "Max Distance", 50, 2000, 800)
+        bm.slider(G.SILENT_AIM, "boba_silent_hit_chance", "Hit Chance", 0, 100, 100)
+        bm.toggle(G.SILENT_AIM, "boba_silent_hitscan", "Hitscan", false)
+        bm.toggle(G.SILENT_AIM, "boba_silent_sticky", "Sticky Target", false)
+        bm.sep(G.SILENT_AIM)
+        bm.label(G.SILENT_AIM, "── Visuals ──")
+        bm.toggle(G.SILENT_AIM, "boba_silent_draw_fov", "Draw FOV", true)
+        bm.combo(G.SILENT_AIM, "boba_silent_fov_style", "FOV Style", {"Circle","Filled Circle","Cross"}, 0)
+        bm.toggle(G.SILENT_AIM, "boba_silent_target_line", "Target Line", false)
+        bm.sep(G.SILENT_AIM)
+        bm.label(G.SILENT_AIM, "── Filters ──")
+        bm.toggle(G.SILENT_AIM, "boba_silent_ignore_team", "Ignore Teammates", true)
+        bm.toggle(G.SILENT_AIM, "boba_silent_ignore_downed", "Ignore Downed", true)
+        bm.toggle(G.SILENT_AIM, "boba_silent_visible_only", "Visible Only", false)
+        bm.sep(G.SILENT_AIM)
+        bm.label(G.SILENT_AIM, "── Bullet ──")
+        bm.hotkey(G.SILENT_AIM, "boba_bullet_enabled", "Bullet Manip")
+        bm.toggle(G.SILENT_AIM, "boba_bullet_body_peek", "Body Peek", false)
+        bm.toggle(G.SILENT_AIM, "boba_thick_bullet", "Thick Bullet", false)
+        bm.slider(G.SILENT_AIM, "boba_thick_bullet_mult", "Thick Multiplier", 1, 5, 2)
 
-        bmenu.hotkey(G.GUN_MODS, "boba_gunmods", "Gun Mods", false)
-        bmenu.toggle(G.GUN_MODS, "boba_gm_recoil", "No Recoil", false)
-        bmenu.slider(G.GUN_MODS, "boba_gm_recoil_pct", "Recoil Reduction %", 0, 100, 100)
-        bmenu.toggle(G.GUN_MODS, "boba_gm_spread", "No Spread", false)
-        bmenu.slider(G.GUN_MODS, "boba_gm_spread_pct", "Spread Reduction %", 0, 100, 100)
-        bmenu.toggle(G.GUN_MODS, "boba_gm_sway", "No Sway", false)
-        bmenu.toggle(G.GUN_MODS, "boba_gm_fire_rate", "Fire Rate Mod", false)
-        bmenu.slider(G.GUN_MODS, "boba_gm_fire_rate_mult", "Rate Multiplier", 1, 5, 2)
-        bmenu.toggle(G.GUN_MODS, "boba_gm_speed", "Bullet Speed Mod", false)
-        bmenu.slider(G.GUN_MODS, "boba_gm_speed_mult", "Speed Multiplier", 1, 5, 2)
-        bmenu.toggle(G.GUN_MODS, "boba_gm_range", "Range Mod", false)
-        bmenu.slider(G.GUN_MODS, "boba_gm_range_mult", "Range Multiplier", 1, 5, 2)
-        bmenu.toggle(G.GUN_MODS, "boba_gm_double_tap", "Double Tap", false)
-        bmenu.sep(G.GUN_MODS)
-        bmenu.label(G.GUN_MODS, "── Tracers ──")
-        bmenu.hotkey(G.GUN_MODS, "boba_tracers", "Tracers", false)
-        bmenu.combo(G.GUN_MODS, "boba_tracers_style", "Style", {"Line","Arc","Curve","Beam"}, 0)
-        bmenu.slider(G.GUN_MODS, "boba_tracers_lifetime", "Lifetime", 0.1, 5, 1, true)
-        bmenu.slider(G.GUN_MODS, "boba_tracers_thickness", "Thickness", 1, 6, 2)
-        bmenu.toggle(G.GUN_MODS, "boba_tracers_glow", "Glow", false)
-        bmenu.toggle(G.GUN_MODS, "boba_tracers_rainbow", "Rainbow", false)
+        bm.hotkey(G.GUN_MODS, "boba_gunmods", "Gun Mods")
+        bm.toggle(G.GUN_MODS, "boba_gm_recoil", "No Recoil", false)
+        bm.slider(G.GUN_MODS, "boba_gm_recoil_pct", "Recoil Reduction %", 0, 100, 100)
+        bm.toggle(G.GUN_MODS, "boba_gm_spread", "No Spread", false)
+        bm.slider(G.GUN_MODS, "boba_gm_spread_pct", "Spread Reduction %", 0, 100, 100)
+        bm.toggle(G.GUN_MODS, "boba_gm_sway", "No Sway", false)
+        bm.toggle(G.GUN_MODS, "boba_gm_fire_rate", "Fire Rate Mod", false)
+        bm.slider(G.GUN_MODS, "boba_gm_fire_rate_mult", "Rate Multiplier", 1, 5, 2)
+        bm.toggle(G.GUN_MODS, "boba_gm_speed", "Bullet Speed Mod", false)
+        bm.slider(G.GUN_MODS, "boba_gm_speed_mult", "Speed Multiplier", 1, 5, 2)
+        bm.toggle(G.GUN_MODS, "boba_gm_range", "Range Mod", false)
+        bm.slider(G.GUN_MODS, "boba_gm_range_mult", "Range Multiplier", 1, 5, 2)
+        bm.toggle(G.GUN_MODS, "boba_gm_double_tap", "Double Tap", false)
+        bm.sep(G.GUN_MODS)
+        bm.label(G.GUN_MODS, "── Tracers ──")
+        bm.hotkey(G.GUN_MODS, "boba_tracers", "Tracers")
+        bm.combo(G.GUN_MODS, "boba_tracers_style", "Style", {"Line","Arc","Curve","Beam"}, 0)
+        bm.slider(G.GUN_MODS, "boba_tracers_lifetime", "Lifetime", 0.1, 5, 1, true)
+        bm.slider(G.GUN_MODS, "boba_tracers_thickness", "Thickness", 1, 6, 2)
+        bm.toggle(G.GUN_MODS, "boba_tracers_rainbow", "Rainbow", false)
 
-        bmenu.hotkey(G.VISUALS, "boba_player_esp", "Player ESP", false)
-        bmenu.combo(G.VISUALS, "boba_player_box_mode", "Box Mode", BOX_MODES, 0)
-        bmenu.toggle(G.VISUALS, "boba_player_health", "Health Bar", true)
-        bmenu.toggle(G.VISUALS, "boba_player_skeleton", "Skeleton", true)
-        bmenu.toggle(G.VISUALS, "boba_player_name", "Show Name", true)
-        bmenu.toggle(G.VISUALS, "boba_player_held", "Show Held Item", true)
-        bmenu.toggle(G.VISUALS, "boba_player_distance", "Show Distance", true)
-        bmenu.slider(G.VISUALS, "boba_player_range", "Range", 50, 2000, 600)
-        bmenu.sep(G.VISUALS)
-        bmenu.label(G.VISUALS, "── Flags ──")
-        bmenu.toggle(G.VISUALS, "boba_flag_downed", "Downed", true)
-        bmenu.toggle(G.VISUALS, "boba_flag_staff", "Staff", true)
-        bmenu.sep(G.VISUALS)
-        bmenu.label(G.VISUALS, "── Crosshair ──")
-        bmenu.toggle(G.VISUALS, "boba_crosshair", "Custom Crosshair", false)
-        bmenu.combo(G.VISUALS, "boba_crosshair_type", "Type", {"Cross","Dot","Circle","T-Shape"}, 0)
-        bmenu.slider(G.VISUALS, "boba_crosshair_size", "Size", 1, 20, 6)
-        bmenu.slider(G.VISUALS, "boba_crosshair_gap", "Gap", 0, 15, 3)
-        bmenu.sep(G.VISUALS)
-        bmenu.label(G.VISUALS, "── Aimbot ──")
-        bmenu.hotkey(G.VISUALS, "boba_aimbot", "Aimbot", false)
-        bmenu.combo(G.VISUALS, "boba_aim_bone", "Bone", BONES, 1)
-        bmenu.slider(G.VISUALS, "boba_aim_fov", "FOV", 10, 360, 120)
-        bmenu.slider(G.VISUALS, "boba_aim_smooth", "Smooth", 1, 20, 5)
-        bmenu.toggle(G.VISUALS, "boba_aim_prediction", "Auto Prediction", true)
+        bm.hotkey(G.VISUALS, "boba_player_esp", "Player ESP")
+        bm.combo(G.VISUALS, "boba_player_box_mode", "Box Mode", {"2D","Corner","3D","None"}, 0)
+        bm.toggle(G.VISUALS, "boba_player_health", "Health Bar", true)
+        bm.toggle(G.VISUALS, "boba_player_skeleton", "Skeleton", true)
+        bm.toggle(G.VISUALS, "boba_player_name", "Show Name", true)
+        bm.toggle(G.VISUALS, "boba_player_held", "Show Held Item", true)
+        bm.toggle(G.VISUALS, "boba_player_distance", "Show Distance", true)
+        bm.slider(G.VISUALS, "boba_player_range", "Range", 50, 2000, 600)
+        bm.sep(G.VISUALS)
+        bm.label(G.VISUALS, "── Crosshair ──")
+        bm.toggle(G.VISUALS, "boba_crosshair", "Custom Crosshair", false)
+        bm.combo(G.VISUALS, "boba_crosshair_type", "Type", {"Cross","Dot","Circle","T-Shape"}, 0)
+        bm.slider(G.VISUALS, "boba_crosshair_size", "Size", 1, 20, 6)
+        bm.slider(G.VISUALS, "boba_crosshair_gap", "Gap", 0, 15, 3)
+        bm.sep(G.VISUALS)
+        bm.label(G.VISUALS, "── Aimbot ──")
+        bm.hotkey(G.VISUALS, "boba_aimbot", "Aimbot")
+        bm.combo(G.VISUALS, "boba_aim_bone", "Bone", BONES, 1)
+        bm.slider(G.VISUALS, "boba_aim_fov", "FOV", 10, 360, 120)
+        bm.slider(G.VISUALS, "boba_aim_smooth", "Smooth", 1, 20, 5)
+        bm.toggle(G.VISUALS, "boba_aim_prediction", "Auto Prediction", true)
 
-        bmenu.hotkey(G.WORLD, "boba_world_esp", "World ESP", false)
-        bmenu.toggle(G.WORLD, "boba_world_stone", "Stone Nodes", true)
-        bmenu.toggle(G.WORLD, "boba_world_metal", "Metal Nodes", true)
-        bmenu.toggle(G.WORLD, "boba_world_phosphate", "Phosphate", true)
-        bmenu.slider(G.WORLD, "boba_world_range", "Range", 50, 1000, 300)
-        bmenu.sep(G.WORLD)
-        bmenu.label(G.WORLD, "── Loot ──")
-        bmenu.hotkey(G.WORLD, "boba_loot_esp", "Loot ESP", false)
-        bmenu.toggle(G.WORLD, "boba_loot_crates", "Crates", true)
-        bmenu.toggle(G.WORLD, "boba_loot_care_package", "Care Packages", true)
-        bmenu.toggle(G.WORLD, "boba_loot_body_bag", "Body Bags", true)
-        bmenu.slider(G.WORLD, "boba_loot_range", "Range", 50, 1000, 400)
-        bmenu.sep(G.WORLD)
-        bmenu.label(G.WORLD, "── NPC ──")
-        bmenu.hotkey(G.WORLD, "boba_npc_esp", "NPC ESP", false)
-        bmenu.toggle(G.WORLD, "boba_npc_soldier", "Soldiers", true)
-        bmenu.toggle(G.WORLD, "boba_npc_bosses", "Bosses", true)
-        bmenu.toggle(G.WORLD, "boba_npc_heli", "Attack Heli", true)
-        bmenu.slider(G.WORLD, "boba_npc_range", "Range", 50, 1000, 500)
-        bmenu.sep(G.WORLD)
-        bmenu.label(G.WORLD, "── Base ──")
-        bmenu.hotkey(G.WORLD, "boba_base_esp", "Base ESP", false)
-        bmenu.toggle(G.WORLD, "boba_base_tc", "Tool Cupboard", true)
-        bmenu.toggle(G.WORLD, "boba_base_turrets", "Turrets", true)
-        bmenu.toggle(G.WORLD, "boba_base_doors", "Doors", true)
-        bmenu.toggle(G.WORLD, "boba_base_xray", "X-Ray Mode", false)
-        bmenu.slider(G.WORLD, "boba_base_range", "Range", 50, 500, 250)
+        bm.hotkey(G.WORLD, "boba_world_esp", "World ESP")
+        bm.toggle(G.WORLD, "boba_world_stone", "Stone Nodes", true)
+        bm.toggle(G.WORLD, "boba_world_metal", "Metal Nodes", true)
+        bm.toggle(G.WORLD, "boba_world_phosphate", "Phosphate", true)
+        bm.slider(G.WORLD, "boba_world_range", "Range", 50, 1000, 300)
+        bm.sep(G.WORLD)
+        bm.label(G.WORLD, "── Loot ──")
+        bm.hotkey(G.WORLD, "boba_loot_esp", "Loot ESP")
+        bm.toggle(G.WORLD, "boba_loot_crates", "Crates", true)
+        bm.toggle(G.WORLD, "boba_loot_care_package", "Care Packages", true)
+        bm.toggle(G.WORLD, "boba_loot_body_bag", "Body Bags", true)
+        bm.slider(G.WORLD, "boba_loot_range", "Range", 50, 1000, 400)
+        bm.sep(G.WORLD)
+        bm.label(G.WORLD, "── NPC ──")
+        bm.hotkey(G.WORLD, "boba_npc_esp", "NPC ESP")
+        bm.toggle(G.WORLD, "boba_npc_soldier", "Soldiers", true)
+        bm.toggle(G.WORLD, "boba_npc_bosses", "Bosses", true)
+        bm.toggle(G.WORLD, "boba_npc_heli", "Attack Heli", true)
+        bm.slider(G.WORLD, "boba_npc_range", "Range", 50, 1000, 500)
+        bm.sep(G.WORLD)
+        bm.label(G.WORLD, "── Base ──")
+        bm.hotkey(G.WORLD, "boba_base_esp", "Base ESP")
+        bm.toggle(G.WORLD, "boba_base_tc", "Tool Cupboard", true)
+        bm.toggle(G.WORLD, "boba_base_turrets", "Turrets", true)
+        bm.toggle(G.WORLD, "boba_base_doors", "Doors", true)
+        bm.slider(G.WORLD, "boba_base_range", "Range", 50, 500, 250)
 
-        bmenu.hotkey(G.RADAR, "boba_map", "Minimap", false)
-        bmenu.slider(G.RADAR, "boba_map_zoom", "Zoom", 1, 5, 2)
-        bmenu.slider(G.RADAR, "boba_map_size", "Size", 100, 400, 200)
-        bmenu.slider(G.RADAR, "boba_map_opacity", "Opacity %", 10, 100, 85)
-        bmenu.toggle(G.RADAR, "boba_map_players", "Show Players", true)
-        bmenu.toggle(G.RADAR, "boba_map_npcs", "Show NPCs", true)
-        bmenu.toggle(G.RADAR, "boba_map_loot", "Show Loot", true)
-        bmenu.sep(G.RADAR)
-        bmenu.label(G.RADAR, "── Waypoints ──")
-        bmenu.hotkey(G.RADAR, "boba_waypoints", "Waypoints", false)
-        bmenu.toggle(G.RADAR, "boba_wp_beacon", "Beacon", true)
-        bmenu.sep(G.RADAR)
-        bmenu.label(G.RADAR, "── Raids ──")
-        bmenu.hotkey(G.RADAR, "boba_raid_alerts", "Raid Alerts", false)
-        bmenu.slider(G.RADAR, "boba_raid_range", "Alert Range", 100, 2000, 800)
+        bm.hotkey(G.RADAR, "boba_map", "Minimap")
+        bm.slider(G.RADAR, "boba_map_zoom", "Zoom", 1, 5, 2)
+        bm.slider(G.RADAR, "boba_map_size", "Size", 100, 400, 200)
+        bm.slider(G.RADAR, "boba_map_opacity", "Opacity %", 10, 100, 85)
+        bm.toggle(G.RADAR, "boba_map_players", "Show Players", true)
+        bm.toggle(G.RADAR, "boba_map_npcs", "Show NPCs", true)
+        bm.toggle(G.RADAR, "boba_map_loot", "Show Loot", true)
+        bm.sep(G.RADAR)
+        bm.hotkey(G.RADAR, "boba_raid_alerts", "Raid Alerts")
+        bm.slider(G.RADAR, "boba_raid_range", "Alert Range", 100, 2000, 800)
 
-        bmenu.label(G.MISC, "── Movement ──")
-        bmenu.hotkey(G.MISC, "boba_fly", "Fly", false)
-        bmenu.slider(G.MISC, "boba_fly_speed", "Fly Speed", 1, 20, 5)
-        bmenu.toggle(G.MISC, "boba_fly_noclip", "Noclip", true)
-        bmenu.hotkey(G.MISC, "boba_bhop", "Bunny Hop", false)
-        bmenu.hotkey(G.MISC, "boba_spider", "Spider Climb", false)
-        bmenu.slider(G.MISC, "boba_spider_speed", "Spider Speed", 18, 30, 18)
-        bmenu.sep(G.MISC)
-        bmenu.label(G.MISC, "── Combat ──")
-        bmenu.hotkey(G.MISC, "boba_antifling", "Anti-Fling", false)
-        bmenu.hotkey(G.MISC, "boba_fling", "Fling", false)
-        bmenu.slider(G.MISC, "boba_fling_fov", "Fling FOV", 10, 180, 90)
-        bmenu.sep(G.MISC)
-        bmenu.label(G.MISC, "── Anti-Aim ──")
-        bmenu.hotkey(G.MISC, "boba_antiaim", "Anti-Aim", false)
-        bmenu.combo(G.MISC, "boba_aa_yaw", "Yaw Mode", {"Backward","Spin","Jitter","Random"}, 0)
-        bmenu.slider(G.MISC, "boba_aa_spin_speed", "Spin Speed", 1, 20, 5)
-        bmenu.sep(G.MISC)
-        bmenu.label(G.MISC, "── Desync ──")
-        bmenu.hotkey(G.MISC, "boba_desync", "Desync", false)
-        bmenu.hotkey(G.MISC, "boba_fakeduck", "Fake Duck", false)
-        bmenu.slider(G.MISC, "boba_fakeduck_height", "Duck Height", 0.5, 2.5, 1.4, true)
-        bmenu.sep(G.MISC)
-        bmenu.label(G.MISC, "── Other ──")
-        bmenu.toggle(G.MISC, "boba_anti_afk", "Anti-AFK", false)
-        bmenu.hotkey(G.MISC, "boba_autofarm", "Autofarm", false)
-        bmenu.slider(G.MISC, "boba_autofarm_range", "Farm Range", 20, 200, 80)
+        bm.label(G.MISC, "── Movement ──")
+        bm.hotkey(G.MISC, "boba_fly", "Fly")
+        bm.slider(G.MISC, "boba_fly_speed", "Fly Speed", 1, 20, 5)
+        bm.toggle(G.MISC, "boba_fly_noclip", "Noclip", true)
+        bm.hotkey(G.MISC, "boba_bhop", "Bunny Hop")
+        bm.hotkey(G.MISC, "boba_spider", "Spider Climb")
+        bm.slider(G.MISC, "boba_spider_speed", "Spider Speed", 18, 30, 18)
+        bm.sep(G.MISC)
+        bm.label(G.MISC, "── Combat ──")
+        bm.hotkey(G.MISC, "boba_antifling", "Anti-Fling")
+        bm.hotkey(G.MISC, "boba_fling", "Fling")
+        bm.slider(G.MISC, "boba_fling_fov", "Fling FOV", 10, 180, 90)
+        bm.sep(G.MISC)
+        bm.label(G.MISC, "── Anti-Aim ──")
+        bm.hotkey(G.MISC, "boba_antiaim", "Anti-Aim")
+        bm.combo(G.MISC, "boba_aa_yaw", "Yaw Mode", {"Backward","Spin","Jitter","Random"}, 0)
+        bm.slider(G.MISC, "boba_aa_spin_speed", "Spin Speed", 1, 20, 5)
+        bm.sep(G.MISC)
+        bm.hotkey(G.MISC, "boba_desync", "Desync")
+        bm.hotkey(G.MISC, "boba_fakeduck", "Fake Duck")
+        bm.slider(G.MISC, "boba_fakeduck_height", "Duck Height", 0.5, 2.5, 1.4, true)
+        bm.sep(G.MISC)
+        bm.toggle(G.MISC, "boba_anti_afk", "Anti-AFK", false)
+        bm.hotkey(G.MISC, "boba_autofarm", "Autofarm")
+        bm.slider(G.MISC, "boba_autofarm_range", "Farm Range", 20, 200, 80)
     end
 
     return M
 end)()
 
 -- ═══════════════════════════════════════════════════════
--- FEATURE: Silent Aim Logic
+-- FEATURES
 -- ═══════════════════════════════════════════════════════
 BobaV1._mods["features.silent_aim"] = (function()
     local settings = BobaV1.require("core.settings")
@@ -1000,27 +747,23 @@ BobaV1._mods["features.silent_aim"] = (function()
         local max_fov = settings.num("boba_silent_fov", 120)
         local max_dist = settings.num("boba_silent_max_dist", 800)
         local bone_name = esp_util.AIM_BONES[settings.num("boba_silent_bone", 1) + 1] or "Head"
-        local ignore_team = settings.bool("boba_silent_ignore_team", true)
-        local ignore_downed = settings.bool("boba_silent_ignore_downed", true)
-        local best = nil
-        local best_fov = max_fov
+        local best, best_fov = nil, max_fov
         for _, player in ipairs(players) do
             if player ~= lp and entity_props.is_alive(player) then
-                if not (ignore_team and env.same_team(lp, player)) then
-                    if not (ignore_downed and entity_props.is_downed(player)) then
-                        local pos = entity_props.get_bone_position(player, bone_name)
-                        if not pos then pos = entity_props.get_position(player) end
+                if not (settings.bool("boba_silent_ignore_team", true) and env.same_team(lp, player)) then
+                    if not (settings.bool("boba_silent_ignore_downed", true) and entity_props.is_downed(player)) then
+                        local pos = entity_props.get_bone_position(player, bone_name) or entity_props.get_position(player)
                         if pos then
                             local my_pos = entity_props.get_position(lp)
                             if my_pos then
-                                local dist = math_util.distance3(pos.x - my_pos.x, pos.y - my_pos.y, pos.z - my_pos.z)
+                                local dist = math_util.distance3(pos.x-my_pos.x, pos.y-my_pos.y, pos.z-my_pos.z)
                                 if dist <= max_dist then
                                     local sx, sy, vis = esp_util.w2s(pos.x, pos.y, pos.z)
                                     if vis then
                                         local fov = math.sqrt((sx-cx)*(sx-cx) + (sy-cy)*(sy-cy))
                                         if fov < best_fov then
                                             best_fov = fov
-                                            best = {player = player, pos = pos, dist = dist, fov = fov}
+                                            best = {player=player, pos=pos, dist=dist, fov=fov}
                                         end
                                     end
                                 end
@@ -1045,11 +788,8 @@ BobaV1._mods["features.silent_aim"] = (function()
             current_target = nil
             return
         end
-        local hit_chance = settings.num("boba_silent_hit_chance", 100)
-        if hit_chance < 100 and math.random(1, 100) > hit_chance then
-            silent_ray.stop()
-            return
-        end
+        local hc = settings.num("boba_silent_hit_chance", 100)
+        if hc < 100 and math.random(1,100) > hc then silent_ray.stop(); return end
         local aim_pos = target.pos
         if settings.bool("boba_aim_prediction", true) then
             local vel = entity_props.get_velocity(target.player)
@@ -1066,119 +806,100 @@ BobaV1._mods["features.silent_aim"] = (function()
         if not settings.enabled("boba_silent_aim") then return end
         local sw, sh = draw_util.screen_size()
         local cx, cy = sw * 0.5, sh * 0.5
-        local boba_amber = {0.83, 0.65, 0.46, 0.6}
         if settings.bool("boba_silent_draw_fov", true) then
-            local fov = settings.num("boba_silent_fov", 120)
-            draw_util.circle(cx, cy, fov, boba_amber, false, 48)
+            draw_util.circle(cx, cy, settings.num("boba_silent_fov", 120), {0.83, 0.65, 0.46, 0.6}, false, 48)
         end
         if current_target and settings.bool("boba_silent_target_line", false) then
-            local pos = current_target.pos
-            local sx, sy, vis = esp_util.w2s(pos.x, pos.y, pos.z)
-            if vis then
-                draw_util.line(cx, cy, sx, sy, {1, 0.42, 0.42, 0.7}, 1.5)
-            end
+            local sx, sy, vis = esp_util.w2s(current_target.pos.x, current_target.pos.y, current_target.pos.z)
+            if vis then draw_util.line(cx, cy, sx, sy, {1, 0.42, 0.42, 0.7}, 1.5) end
         end
     end
-
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- FEATURE: Player ESP
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["features.player_esp"] = (function()
     local settings = BobaV1.require("core.settings")
     local env = BobaV1.require("core.env")
-    local entity_props = BobaV1.require("core.entity_props")
-    local esp_util = BobaV1.require("core.esp_util")
-    local draw_util = BobaV1.require("core.draw_util")
-    local math_util = BobaV1.require("core.math_util")
+    local ep = BobaV1.require("core.entity_props")
+    local esp = BobaV1.require("core.esp_util")
+    local du = BobaV1.require("core.draw_util")
+    local mu = BobaV1.require("core.math_util")
     local M = {}
-    local BOBA = {0.83, 0.65, 0.46, 1}
-    local WHITE = {1, 1, 1, 1}
-    local RED = {1, 0.42, 0.42, 1}
-    local GREEN = {0.32, 0.81, 0.40, 1}
-    local YELLOW = {1, 0.83, 0.23, 1}
+    local BOBA={0.83,0.65,0.46,1} local WHITE={1,1,1,1} local RED={1,0.42,0.42,1}
+    local GREEN={0.32,0.81,0.40,1} local YELLOW={1,0.83,0.23,1}
 
     function M.draw()
         if not settings.enabled("boba_player_esp") then return end
         local lp = env.get_local_player()
         if not lp then return end
-        local players = env.get_players()
-        local max_range = settings.num("boba_player_range", 600)
-        local my_pos = entity_props.get_position(lp)
+        local my_pos = ep.get_position(lp)
         if not my_pos then return end
-        for _, player in ipairs(players) do
-            if player ~= lp and entity_props.is_alive(player) then
-                local pos = entity_props.get_position(player)
+        local max_range = settings.num("boba_player_range", 600)
+        for _, player in ipairs(env.get_players()) do
+            if player ~= lp and ep.is_alive(player) then
+                local pos = ep.get_position(player)
                 if pos then
-                    local dist = math_util.distance3(pos.x - my_pos.x, pos.y - my_pos.y, pos.z - my_pos.z)
+                    local dist = mu.distance3(pos.x-my_pos.x, pos.y-my_pos.y, pos.z-my_pos.z)
                     if dist <= max_range then
-                        local head_pos = entity_props.get_bone_position(player, "Head")
-                        if not head_pos then head_pos = {x=pos.x, y=pos.y+2.5, z=pos.z} end
-                        local sx_top, sy_top, vis_top = esp_util.w2s(head_pos.x, head_pos.y + 0.35, head_pos.z)
-                        local sx_bot, sy_bot, vis_bot = esp_util.w2s(pos.x, pos.y - 2.5, pos.z)
-                        if vis_top or vis_bot then
+                        local hp = ep.get_bone_position(player,"Head") or {x=pos.x,y=pos.y+2.5,z=pos.z}
+                        local _,sy_top,vt = esp.w2s(hp.x, hp.y+0.35, hp.z)
+                        local _2,sy_bot,vb = esp.w2s(pos.x, pos.y-2.5, pos.z)
+                        local sx_top = _
+                        local sx_bot = _2
+                        if vt or vb then
                             local h = math.abs(sy_bot - sy_top)
                             local w = h * 0.55
                             local cx = (sx_top + sx_bot) * 0.5
                             local top = math.min(sy_top, sy_bot)
                             local col = env.same_team(lp, player) and GREEN or BOBA
-                            local box_mode = settings.num("boba_player_box_mode", 0)
-                            if box_mode == 0 then
-                                draw_util.rect(cx - w*0.5, top, w, h, col, 0, 1)
-                            elseif box_mode == 1 then
-                                local corner = math.max(4, h * 0.2)
-                                local x1, y1 = cx - w*0.5, top
-                                local x2, y2 = cx + w*0.5, top + h
-                                draw_util.line(x1, y1, x1 + corner, y1, col, 1)
-                                draw_util.line(x1, y1, x1, y1 + corner, col, 1)
-                                draw_util.line(x2, y1, x2 - corner, y1, col, 1)
-                                draw_util.line(x2, y1, x2, y1 + corner, col, 1)
-                                draw_util.line(x1, y2, x1 + corner, y2, col, 1)
-                                draw_util.line(x1, y2, x1, y2 - corner, col, 1)
-                                draw_util.line(x2, y2, x2 - corner, y2, col, 1)
-                                draw_util.line(x2, y2, x2, y2 - corner, col, 1)
+                            local bm = settings.num("boba_player_box_mode", 0)
+                            if bm == 0 then
+                                du.rect(cx-w*0.5, top, w, h, col, 0, 1)
+                            elseif bm == 1 then
+                                local c = math.max(4, h*0.2)
+                                local x1,y1 = cx-w*0.5, top
+                                local x2,y2 = cx+w*0.5, top+h
+                                du.line(x1,y1,x1+c,y1,col,1) du.line(x1,y1,x1,y1+c,col,1)
+                                du.line(x2,y1,x2-c,y1,col,1) du.line(x2,y1,x2,y1+c,col,1)
+                                du.line(x1,y2,x1+c,y2,col,1) du.line(x1,y2,x1,y2-c,col,1)
+                                du.line(x2,y2,x2-c,y2,col,1) du.line(x2,y2,x2,y2-c,col,1)
                             end
                             if settings.bool("boba_player_health", true) then
-                                local hp, maxhp = entity_props.get_health(player)
-                                if hp and maxhp and maxhp > 0 then
-                                    local pct = math_util.clamp(hp / maxhp, 0, 1)
-                                    local bar_h = h * pct
-                                    local bar_x = cx - w*0.5 - 4
-                                    draw_util.rect_filled(bar_x, top, 2, h, {0.15, 0.15, 0.15, 0.7}, 0)
-                                    local hcol = pct > 0.5 and GREEN or (pct > 0.25 and YELLOW or RED)
-                                    draw_util.rect_filled(bar_x, top + h - bar_h, 2, bar_h, hcol, 0)
+                                local hp2, mhp = ep.get_health(player)
+                                if hp2 and mhp and mhp > 0 then
+                                    local pct = mu.clamp(hp2/mhp, 0, 1)
+                                    local bh = h * pct
+                                    local bx = cx - w*0.5 - 4
+                                    du.rect_filled(bx, top, 2, h, {0.15,0.15,0.15,0.7}, 0)
+                                    du.rect_filled(bx, top+h-bh, 2, bh, pct>0.5 and GREEN or (pct>0.25 and YELLOW or RED), 0)
                                 end
                             end
                             if settings.bool("boba_player_name", true) then
-                                draw_util.text_centered(cx, top - 14, entity_props.get_display_name(player), WHITE, 12)
+                                du.text_centered(cx, top-14, ep.get_display_name(player), WHITE, 12)
                             end
                             if settings.bool("boba_player_distance", true) then
-                                draw_util.text_centered(cx, top + h + 3, string.format("%.0fm", dist), {0.55, 0.54, 0.60, 1}, 11)
+                                du.text_centered(cx, top+h+3, string.format("%.0fm", dist), {0.55,0.54,0.60,1}, 11)
                             end
                             if settings.bool("boba_player_held", true) then
-                                local held = entity_props.get_held_item(player)
-                                if held then
-                                    draw_util.text_centered(cx, top + h + 15, held, BOBA, 11)
-                                end
+                                local held = ep.get_held_item(player)
+                                if held then du.text_centered(cx, top+h+15, held, BOBA, 11) end
                             end
-                            if settings.bool("boba_flag_downed", true) and entity_props.is_downed(player) then
-                                draw_util.text_centered(cx, top - 26, "DOWNED", RED, 10)
+                            if settings.bool("boba_flag_downed", true) and ep.is_downed(player) then
+                                du.text_centered(cx, top-26, "DOWNED", RED, 10)
                             end
                             if settings.bool("boba_player_skeleton", true) then
                                 local bones = {}
                                 local char = env.get_character(player)
                                 if char then
                                     for _, bn in ipairs({"Head","UpperTorso","LowerTorso","LeftUpperArm","RightUpperArm","LeftLowerArm","RightLowerArm","LeftHand","RightHand","LeftUpperLeg","RightUpperLeg","LeftLowerLeg","RightLowerLeg","LeftFoot","RightFoot"}) do
-                                        local bp = entity_props.get_bone_position(player, bn)
+                                        local bp = ep.get_bone_position(player, bn)
                                         if bp then
-                                            local bsx, bsy, bvis = esp_util.w2s(bp.x, bp.y, bp.z)
+                                            local bsx,bsy,bvis = esp.w2s(bp.x, bp.y, bp.z)
                                             if bvis then bones[bn] = {x=bsx, y=bsy} end
                                         end
                                     end
                                 end
-                                esp_util.draw_skeleton_bones(bones, {1, 1, 1, 0.7}, 1.5)
+                                esp.draw_skeleton_bones(bones, {1,1,1,0.7}, 1.5)
                             end
                         end
                     end
@@ -1186,35 +907,31 @@ BobaV1._mods["features.player_esp"] = (function()
             end
         end
     end
-
     return M
 end)()
 
--- ═══════════════════════════════════════════════════════
--- FEATURE: Crosshair
--- ═══════════════════════════════════════════════════════
 BobaV1._mods["features.crosshair"] = (function()
     local settings = BobaV1.require("core.settings")
-    local draw_util = BobaV1.require("core.draw_util")
+    local du = BobaV1.require("core.draw_util")
     local M = {}
     function M.draw()
         if not settings.enabled("boba_crosshair") then return end
-        local sw, sh = draw_util.screen_size()
-        local cx, cy = sw * 0.5, sh * 0.5
+        local sw, sh = du.screen_size()
+        local cx, cy = sw*0.5, sh*0.5
         local size = settings.num("boba_crosshair_size", 6)
         local gap = settings.num("boba_crosshair_gap", 3)
         local col = {0.83, 0.65, 0.46, 1}
-        draw_util.line(cx - size - gap, cy, cx - gap, cy, col, 2)
-        draw_util.line(cx + gap, cy, cx + size + gap, cy, col, 2)
-        draw_util.line(cx, cy - size - gap, cx, cy - gap, col, 2)
-        draw_util.line(cx, cy + gap, cx, cy + size + gap, col, 2)
-        draw_util.circle(cx, cy, 1.5, col, true)
+        du.line(cx-size-gap, cy, cx-gap, cy, col, 2)
+        du.line(cx+gap, cy, cx+size+gap, cy, col, 2)
+        du.line(cx, cy-size-gap, cx, cy-gap, col, 2)
+        du.line(cx, cy+gap, cx, cy+size+gap, col, 2)
+        du.circle(cx, cy, 1.5, col, true)
     end
     return M
 end)()
 
 -- ═══════════════════════════════════════════════════════
--- MAIN LOOP
+-- BOOT
 -- ═══════════════════════════════════════════════════════
 BobaV1._mods["boba.main"] = (function()
     local M = {}
@@ -1225,11 +942,16 @@ BobaV1._mods["boba.main"] = (function()
     local register_menu = BobaV1.require("boba.register_menu")
 
     local function render_frame()
-        notify.draw()
-        silent_aim.draw()
-        player_esp.draw()
-        crosshair.draw()
-        silent_aim.tick()
+        local ok, err = pcall(function()
+            notify.draw()
+            silent_aim.draw()
+            player_esp.draw()
+            crosshair.draw()
+            silent_aim.tick()
+        end)
+        if not ok then
+            draw.text(10, 10, "[BobaV1 ERROR] " .. tostring(err), {1,0.3,0.3,1}, 12)
+        end
     end
 
     function M.boot()
@@ -1237,24 +959,14 @@ BobaV1._mods["boba.main"] = (function()
         print("[BobaV1] Menu registered")
         notify.success("BobaV1 v" .. BobaV1.VERSION .. " loaded!", 4000)
 
-        local hooked = false
+        _G.OnFrame = render_frame
+        _G.onFrame = render_frame
+        _G.on_frame = render_frame
+        if draw then draw.callback = render_frame end
 
-        if not hooked and draw and draw.callback and type(draw.callback) == "function" then
-            print("[BobaV1] Hooking: draw.callback")
-            draw.callback(render_frame)
-            hooked = true
-        end
-
-        if not hooked and menu and menu.set_callback and type(menu.set_callback) == "function" then
-            print("[BobaV1] Hooking: menu.set_callback")
-            menu.set_callback(render_frame)
-            hooked = true
-        end
-
-        print("[BobaV1] Hook status: " .. tostring(hooked))
+        print("[BobaV1] Render hook active")
         print("[BobaV1] All features registered and active")
     end
-
     return M
 end)()
 
