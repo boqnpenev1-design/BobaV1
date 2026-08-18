@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BobaV1 — Fallen Survival</title>
+    <meta name="description" content="BobaV1 Cheat Configurator for Roblox Fallen Survival">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="boba.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Splash screen -->
+        <div id="splash" class="splash">
+            <img src="boba.png" alt="BobaV1" class="splash-logo">
+            <div class="splash-title">BobaV1</div>
+            <div class="splash-sub">Loading configuration...</div>
+            <div class="splash-bar"><div class="splash-fill"></div></div>
+        </div>
+
+        <!-- Main app -->
+        <div id="main" class="main hidden">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <div class="sidebar-brand">
+                    <img src="boba.png" alt="Boba" class="sidebar-logo">
+                    <span class="sidebar-name">BobaV1</span>
+                    <span class="sidebar-ver">v1.0</span>
+                </div>
+                <div class="sidebar-tabs">
+                    <button class="tab-btn active" data-tab="silentaim">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                        <span>Silent Aim</span>
+                    </button>
+                    <button class="tab-btn" data-tab="gunmods">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h6l2-3 3 6 2-3h7"/></svg>
+                        <span>Gun Mods</span>
+                    </button>
+                    <button class="tab-btn" data-tab="visuals">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span>Visuals</span>
+                    </button>
+                    <button class="tab-btn" data-tab="world">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span>World</span>
+                    </button>
+                    <button class="tab-btn" data-tab="radar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v10l7 7"/></svg>
+                        <span>Radar</span>
+                    </button>
+                    <button class="tab-btn" data-tab="misc">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        <span>Misc</span>
+                    </button>
+                    <button class="tab-btn" data-tab="config">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18M5.63 5.63l12.73 12.73M18.36 5.63L5.63 18.36"/></svg>
+                        <span>Config</span>
+                    </button>
+                </div>
+                <div class="sidebar-footer">
+                    <button class="export-btn" id="exportBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                        Export Script
+                    </button>
+                    <div class="sidebar-info">Fallen Survival</div>
+                </div>
+            </nav>
+
+            <!-- Content area -->
+            <main class="content">
+                <div class="content-header">
+                    <h1 id="tabTitle">Silent Aim</h1>
+                    <div class="header-actions">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Ready</span>
+                    </div>
+                </div>
+                <div class="content-body" id="contentBody">
+                    <!-- Tab content injected here by JS -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Export Modal -->
+        <div id="exportModal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>Export Script</h2>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-desc">Copy this loadstring and paste it into your Fallen executor:</p>
+                    <div class="code-block">
+                        <code id="exportCode"></code>
+                        <button class="copy-btn" id="copyBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            Copy
+                        </button>
+                    </div>
+                    <div class="modal-steps">
+                        <div class="step"><span class="step-num">1</span> Open Fallen executor</div>
+                        <div class="step"><span class="step-num">2</span> Paste the loadstring above</div>
+                        <div class="step"><span class="step-num">3</span> Execute — BobaV1 loads with your settings</div>
+                    </div>
+                    <div class="modal-alt">
+                        <p>Or use direct URL in executor:</p>
+                        <code class="url-code">utility.LoadUrl("YOUR_GITHUB_RAW_URL/boba.lua")</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
