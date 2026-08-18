@@ -1354,45 +1354,141 @@ BobaV1._mods["boba.main"] = (function()
     local crosshair = BobaV1.require("features.crosshair")
     local register_menu = BobaV1.require("boba.register_menu")
 
+    local function render_frame()
+        notify.draw()
+        silent_aim.draw()
+        player_esp.draw()
+        crosshair.draw()
+        silent_aim.tick()
+    end
+
     function M.boot()
-        -- Register all menu controls
-        register_menu.register()
+        print("[BobaV1] API Check:")
+        print("  menu: " .. tostring(menu ~= nil))
+        print("  draw: " .. tostring(draw ~= nil))
+        print("  entity: " .. tostring(entity ~= nil))
+        print("  raycast: " .. tostring(raycast ~= nil))
+        print("  camera: " .. tostring(camera ~= nil))
+        print("  utility: " .. tostring(utility ~= nil))
+        print("  callbacks: " .. tostring(callbacks ~= nil))
+        print("  client: " .. tostring(client ~= nil))
+        print("  exploits: " .. tostring(exploits ~= nil))
 
-        -- Show startup notification
-        notify.success("BobaV1 v" .. BobaV1.VERSION .. " loaded!", 4000)
-        notify.info("Press Insert to toggle menu", 3000)
-
-        -- Register draw callback
-        if draw and draw.register then
-            pcall(draw.register, function()
-                -- Notifications
-                notify.draw()
-                -- Features
-                silent_aim.draw()
-                player_esp.draw()
-                crosshair.draw()
-                -- Silent aim tick
-                silent_aim.tick()
-            end)
-        elseif menu and menu.register_draw then
-            pcall(menu.register_draw, function()
-                notify.draw()
-                silent_aim.draw()
-                player_esp.draw()
-                crosshair.draw()
-                silent_aim.tick()
-            end)
+        if menu then
+            local fns = {}
+            for k, v in pairs(menu) do
+                if type(v) == "function" then fns[#fns+1] = k end
+            end
+            print("  menu funcs: " .. table.concat(fns, ", "))
+        end
+        if draw then
+            local fns = {}
+            for k, v in pairs(draw) do
+                if type(v) == "function" then fns[#fns+1] = k end
+            end
+            print("  draw funcs: " .. table.concat(fns, ", "))
+        end
+        if callbacks then
+            local fns = {}
+            for k, v in pairs(callbacks) do
+                if type(v) == "function" then fns[#fns+1] = k end
+            end
+            print("  callbacks funcs: " .. table.concat(fns, ", "))
         end
 
+        register_menu.register()
+        print("[BobaV1] Menu registered")
+        notify.success("BobaV1 v" .. BobaV1.VERSION .. " loaded!", 4000)
+
+        local hooked = false
+
+        if not hooked and callbacks and type(callbacks) == "table" then
+            if callbacks.register and type(callbacks.register) == "function" then
+                print("[BobaV1] Hooking: callbacks.register('on_paint')")
+                callbacks.register("on_paint", render_frame)
+                hooked = true
+            end
+            if not hooked and callbacks.add and type(callbacks.add) == "function" then
+                print("[BobaV1] Hooking: callbacks.add('on_paint')")
+                callbacks.add("on_paint", render_frame)
+                hooked = true
+            end
+        end
+
+        if not hooked and draw and draw.register and type(draw.register) == "function" then
+            print("[BobaV1] Hooking: draw.register")
+            draw.register(render_frame)
+            hooked = true
+        end
+
+        if not hooked and menu then
+            if menu.register_draw and type(menu.register_draw) == "function" then
+                print("[BobaV1] Hooking: menu.register_draw")
+                menu.register_draw(render_frame)
+                hooked = true
+            end
+            if not hooked and menu.on_draw and type(menu.on_draw) == "function" then
+                print("[BobaV1] Hooking: menu.on_draw")
+                menu.on_draw(render_frame)
+                hooked = true
+            end
+        end
+
+        if not hooked and client and client.set_event_callback then
+            print("[BobaV1] Hooking: client.set_event_callback")
+            client.set_event_callback("paint", render_frame)
+            hooked = true
+        end
+
+        if not hooked then
+            if type(register_callback) == "function" then
+                print("[BobaV1] Hooking: register_callback global")
+                register_callback("on_paint", render_frame)
+                hooked = true
+            end
+        end
+
+        if not hooked then
+            print("[BobaV1] No callback API, trying RunService...")
+            local ok, rs = pcall(function()
+                if game and game.GetService then
+                    return game:GetService("RunService")
+                end
+            end)
+            if ok and rs then
+                if rs.RenderStepped then
+                    rs.RenderStepped:Connect(render_frame)
+                    hooked = true
+                    print("[BobaV1] Hooked RunService.RenderStepped")
+                elseif rs.Heartbeat then
+                    rs.Heartbeat:Connect(render_frame)
+                    hooked = true
+                    print("[BobaV1] Hooked RunService.Heartbeat")
+                end
+            end
+        end
+
+        if not hooked then
+            print("[BobaV1] FALLBACK: using while loop")
+            local wfn = (task and task.wait) or wait
+            if wfn then
+                spawn(function()
+                    while true do
+                        render_frame()
+                        wfn(0.016)
+                    end
+                end)
+                hooked = true
+            end
+        end
+
+        print("[BobaV1] Hook status: " .. tostring(hooked))
         print("[BobaV1] All features registered and active")
     end
 
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- BOOT
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
 print("в•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—")
 print("в•‘         BobaV1 v" .. BobaV1.VERSION .. "              в•‘")
 print("в•‘        Fallen Survival              в•‘")
@@ -1400,3 +1496,4 @@ print("в•‘     Press Insert to toggle menu     в•‘")
 print("в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ")
 
 BobaV1.require("boba.main").boot()
+
