@@ -1,15 +1,15 @@
 --[[
-    BobaV1 v1.0.0 вЂ” Fallen Survival
-    Standalone cheat script вЂ” no external dependencies
+    BobaV1 v1.0.0 — Fallen Survival
+    Standalone cheat script — no external dependencies
     Custom UI, boba amber theme, all features built-in
     
     Paste into executor:
     utility.LoadUrl("https://raw.githubusercontent.com/boqnpenev1-design/BobaV1/main/boba.lua")
 ]]
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
 -- BobaV1 Module Framework
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
 BobaV1 = BobaV1 or {}
 BobaV1._mods = {}
 BobaV1.VERSION = "1.0.0"
@@ -21,9 +21,9 @@ function BobaV1.require(name)
     return nil
 end
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.env вЂ” Environment detection & safe calls
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.env — Environment detection & safe calls
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.env"] = (function()
     local M = {}
     function M.safe_call(fn, ...)
@@ -95,9 +95,9 @@ BobaV1._mods["core.env"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.api_aliases вЂ” Normalize executor API names
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.api_aliases — Normalize executor API names
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.api_aliases"] = (function()
     local M = {}
     M._applied = false
@@ -150,9 +150,9 @@ BobaV1._mods["core.api_aliases"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.settings вЂ” Unified settings store
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.settings — Unified settings store
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.settings"] = (function()
     local M = {}
     local _values = {}
@@ -166,15 +166,15 @@ BobaV1._mods["core.settings"] = (function()
                 pcall(fn, value, old)
             end
         end
-        if menu and menu.set_value then
-            pcall(menu.set_value, key, value)
+        if menu and menu.set then
+            pcall(menu.set, key, value)
         end
     end
     function M.get(key, default)
         local v = _values[key]
         if v ~= nil then return v end
-        if menu and menu.get_value then
-            local ok, mv = pcall(menu.get_value, key)
+        if menu and menu.get then
+            local ok, mv = pcall(menu.get, key)
             if ok and mv ~= nil then
                 _values[key] = mv
                 return mv
@@ -217,9 +217,8 @@ BobaV1._mods["core.settings"] = (function()
         _callbacks[key] = _callbacks[key] or {}
         table.insert(_callbacks[key], fn)
     end
-    -- Sync from menu on callback
-    if menu and menu.register_callback then
-        pcall(menu.register_callback, function(id, value)
+    if menu and menu.set_callback then
+        pcall(menu.set_callback, function(id, value)
             _values[id] = value
             if _callbacks[id] then
                 for _, fn in ipairs(_callbacks[id]) do
@@ -231,9 +230,9 @@ BobaV1._mods["core.settings"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.math_util вЂ” Math helpers
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.math_util — Math helpers
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.math_util"] = (function()
     local M = {}
     M.PI = math.pi
@@ -261,18 +260,14 @@ BobaV1._mods["core.math_util"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.draw_util вЂ” Drawing helpers
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.draw_util — Drawing helpers
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.draw_util"] = (function()
     local M = {}
     function M.screen_size()
         if draw and draw.get_screen_size then
             local ok, w, h = pcall(draw.get_screen_size)
-            if ok then return w, h end
-        end
-        if utility and utility.get_screen_size then
-            local ok, w, h = pcall(utility.get_screen_size)
             if ok then return w, h end
         end
         return 1920, 1080
@@ -301,8 +296,8 @@ BobaV1._mods["core.draw_util"] = (function()
         size = size or 13
         if draw and draw.text then
             local tw = 0
-            if draw.text_size then
-                local ok, w = pcall(draw.text_size, msg, size)
+            if draw.get_text_size then
+                local ok, w = pcall(draw.get_text_size, msg, size)
                 if ok then tw = w or 0 end
             else
                 tw = #msg * (size * 0.55)
@@ -321,9 +316,9 @@ BobaV1._mods["core.draw_util"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.text_util вЂ” Text sanitizer
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.text_util — Text sanitizer
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.text_util"] = (function()
     local M = {}
     function M.sanitize(text)
@@ -342,9 +337,9 @@ BobaV1._mods["core.text_util"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.cache вЂ” Time-based caching
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.cache — Time-based caching
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.cache"] = (function()
     local M = {}
     local _entries = {}
@@ -374,9 +369,9 @@ BobaV1._mods["core.cache"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.notify вЂ” Toast notification system
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.notify — Toast notification system
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.notify"] = (function()
     local draw_util = BobaV1.require("core.draw_util")
     local text_util = BobaV1.require("core.text_util")
@@ -394,9 +389,6 @@ BobaV1._mods["core.notify"] = (function()
         for _, n in ipairs(queue) do
             if n.msg == msg and (tick() - n.time) < 3000 then return end
         end
-        if menu and menu.notify then
-            pcall(function() menu.notify(msg) end)
-        end
         table.insert(queue, {
             msg = msg, type = ntype, time = tick(),
             duration = duration_ms, alpha = 0, x_off = 80, y = 0,
@@ -413,7 +405,7 @@ BobaV1._mods["core.notify"] = (function()
         success = {0.32, 0.81, 0.40, 1},
         warning = {1.0, 0.83, 0.23, 1},
         danger = {1.0, 0.42, 0.42, 1},
-        info = {0.83, 0.65, 0.46, 1}, -- boba amber
+        info = {0.83, 0.65, 0.46, 1},
     }
     function M.draw()
         if #queue == 0 or not draw then return end
@@ -446,13 +438,9 @@ BobaV1._mods["core.notify"] = (function()
                 local x = sw - box_w - 16 + (n.x_off or 0)
                 local y = n.y
                 local a = n.alpha or 1
-                -- Panel
                 draw_util.rect_filled(x, y, box_w, box_h, {0.06, 0.06, 0.09, 0.94 * a}, 0)
-                -- Accent bar
                 draw_util.rect_filled(x + 2, y, box_w - 3, 2, {accent[1], accent[2], accent[3], a}, 0)
-                -- Border
                 draw_util.rect(x, y, box_w, box_h, {0.83, 0.65, 0.46, 0.15 * a}, 0, 1)
-                -- Text
                 draw_util.text(x + pad, y + pad - 1, n.msg, {0.91, 0.90, 0.94, a}, font)
                 target_y = target_y + box_h + gap
             end
@@ -461,9 +449,9 @@ BobaV1._mods["core.notify"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.esp_util вЂ” ESP drawing helpers (w2s, skeleton, etc)
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.esp_util — ESP drawing helpers
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.esp_util"] = (function()
     local draw_util = BobaV1.require("core.draw_util")
     local settings = BobaV1.require("core.settings")
@@ -490,23 +478,11 @@ BobaV1._mods["core.esp_util"] = (function()
             local ok, a, b, c = pcall(draw.world_to_screen, x, y, z)
             if ok and a then
                 if type(a) == "number" then
-                    local vis = c ~= false and c ~= 0
-                    return a, b, vis
-                end
-            end
-        end
-        if utility and utility.world_to_screen then
-            local ok, a, b, c = pcall(utility.world_to_screen, x, y, z)
-            if ok and a then
-                if type(a) == "number" then
                     return a, b, c ~= false and c ~= 0
                 end
             end
         end
         return 0, 0, false
-    end
-    function M.text_size()
-        return settings.num("boba_esp_text_size", 13)
     end
     function M.draw_skeleton_bones(bones, col, thick)
         if not bones then return end
@@ -519,31 +495,12 @@ BobaV1._mods["core.esp_util"] = (function()
             end
         end
     end
-    function M.draw_offscreen_arrow(cx, cy, tx, ty, col, size)
-        size = size or 14
-        local dx, dy = tx - cx, ty - cy
-        local len = math.sqrt(dx * dx + dy * dy)
-        if len < 1 then return end
-        dx, dy = dx / len, dy / len
-        local px, py = cx + dx * (size + 8), cy + dy * (size + 8)
-        local lx, ly = -dy, dx
-        if draw and draw.poly_filled then
-            draw.poly_filled({
-                {px + dx * size, py + dy * size},
-                {px - dx * 4 + lx * size * 0.55, py - dy * 4 + ly * size * 0.55},
-                {px - dx * 4 - lx * size * 0.55, py - dy * 4 - ly * size * 0.55},
-            }, col)
-        else
-            draw_util.line(px, py, px - dx * 8 + lx * 6, py - dy * 8 + ly * 6, col, 2)
-            draw_util.line(px, py, px - dx * 8 - lx * 6, py - dy * 8 - ly * 6, col, 2)
-        end
-    end
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.entity_props вЂ” Entity property reader
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.entity_props — Entity property reader
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.entity_props"] = (function()
     local env = BobaV1.require("core.env")
     local M = {}
@@ -647,9 +604,9 @@ BobaV1._mods["core.entity_props"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.silent_ray вЂ” Silent aim raycast hooking
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.silent_ray — Silent aim raycast hooking
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.silent_ray"] = (function()
     local M = {}
     local hook_ready = false
@@ -659,13 +616,7 @@ BobaV1._mods["core.silent_ray"] = (function()
     M._last_ok = false
     local function ray_fn(snake, pascal)
         if not raycast then return nil end
-        pcall(function() BobaV1.require("core.api_aliases").apply() end)
         local fn = raycast[snake] or raycast[pascal]
-        return type(fn) == "function" and fn or nil
-    end
-    local function cam_fn(snake, pascal)
-        if not camera then return nil end
-        local fn = camera[snake] or camera[pascal]
         return type(fn) == "function" and fn or nil
     end
     local function make_vec3(x, y, z)
@@ -694,8 +645,9 @@ BobaV1._mods["core.silent_ray"] = (function()
         return hook_ready
     end
     function M.get_camera_origin()
-        local get_pos = cam_fn("get_position", "GetPosition")
-        if not get_pos then return nil end
+        if not camera then return nil end
+        local get_pos = camera.get_position or camera.GetPosition
+        if not get_pos or type(get_pos) ~= "function" then return nil end
         local ok, pos = pcall(get_pos)
         if not ok or not pos then return nil end
         local x = pos.x or pos.X
@@ -711,8 +663,6 @@ BobaV1._mods["core.silent_ray"] = (function()
         tracking = false
         local stop = ray_fn("stop_silent_tracking", "StopSilentTracking")
         if stop then pcall(stop) end
-        local clear = ray_fn("clear_silent_target", "ClearSilentTarget")
-        if clear then pcall(clear) end
     end
     function M.set_target(origin, aim_point)
         M._last_ok = false
@@ -739,13 +689,12 @@ BobaV1._mods["core.silent_ray"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- core.ballistic вЂ” Bullet drop & prediction
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- core.ballistic — Bullet drop & prediction
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["core.ballistic"] = (function()
     local math_util = BobaV1.require("core.math_util")
     local M = {}
-    local ROBLOX_GRAV = 196.2
     function M.calculate_drop(bullet_speed, bullet_gravity, position, origin)
         local px = position.x - origin.x
         local py = position.y - origin.y
@@ -758,11 +707,8 @@ BobaV1._mods["core.ballistic"] = (function()
         return drop == drop and drop or 0
     end
     function M.predict_position(bullet_speed, bullet_gravity, velocity, position, origin)
-        local px = position.x - origin.x
-        local py = position.y - origin.y
-        local pz = position.z - origin.z
         local speed = math.max(bullet_speed or 950, 1)
-        local dist = math_util.distance3(px, py, pz)
+        local dist = math_util.distance3(position.x - origin.x, position.y - origin.y, position.z - origin.z)
         local time = dist / speed
         local drop = M.calculate_drop(bullet_speed, bullet_gravity, position, origin)
         return {
@@ -774,12 +720,10 @@ BobaV1._mods["core.ballistic"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- BobaV1 MENU SYSTEM вЂ” Custom UI registration
--- Uses executor's menu API with BobaV1 branding
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- BobaV1 MENU SYSTEM
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["boba.menu"] = (function()
-    local settings = BobaV1.require("core.settings")
     local M = {}
     M.TAB = "BobaV1"
     M.G = {
@@ -795,16 +739,11 @@ BobaV1._mods["boba.menu"] = (function()
 
     function M.init()
         if _tab_ready then return end
-        if not menu then
-            print("[BobaV1] Warning: menu API not available")
-            return
-        end
-        -- Create main tab
+        if not menu then return end
         if menu.add_tab then
-            pcall(menu.add_tab, M.TAB, "B", "full")
+            menu.add_tab(M.TAB, "B", "full")
         end
         _tab_ready = true
-        -- Create groups (left/right layout)
         local layout = {
             {M.G.SILENT_AIM, "left"},
             {M.G.GUN_MODS, "right"},
@@ -817,65 +756,63 @@ BobaV1._mods["boba.menu"] = (function()
             local name, side = row[1], row[2]
             if not _groups[name] and menu.add_group then
                 if side == "right" then
-                    pcall(menu.add_group, M.TAB, name, 0, true)
+                    menu.add_group(M.TAB, name, 0, true)
                 else
-                    pcall(menu.add_group, M.TAB, name)
+                    menu.add_group(M.TAB, name)
                 end
                 _groups[name] = true
             end
         end
     end
 
-    -- Helpers for adding menu items
-    function M.toggle(group, id, label, default, opts)
+    function M.toggle(group, id, label, default)
         if not menu or not menu.add_checkbox then return end
-        pcall(menu.add_checkbox, M.TAB, group, id, label, default or false, opts or {})
+        menu.add_checkbox(M.TAB, group, id, label, default or false)
     end
-    function M.slider(group, id, label, min, max, default, opts)
-        if not menu or not menu.add_slider then return end
-        pcall(menu.add_slider, M.TAB, group, id, label, min, max, default or min, opts or {})
+    function M.slider(group, id, label, min, max, default, is_float)
+        if not menu then return end
+        if is_float or (type(default) == "number" and default ~= math.floor(default)) then
+            if menu.add_slider_float then
+                menu.add_slider_float(M.TAB, group, id, label, min, max, default or min)
+            end
+        else
+            if menu.add_slider_int then
+                menu.add_slider_int(M.TAB, group, id, label, min, max, default or min)
+            end
+        end
     end
-    function M.combo(group, id, label, options, default, opts)
+    function M.combo(group, id, label, options, default)
         if not menu or not menu.add_combo then return end
-        pcall(menu.add_combo, M.TAB, group, id, label, options, default or 0, opts or {})
+        menu.add_combo(M.TAB, group, id, label, options, default or 0)
     end
-    function M.color(group, id, label, default, opts)
+    function M.color(group, id, label, default)
         if not menu or not menu.add_colorpicker then return end
-        pcall(menu.add_colorpicker, M.TAB, group, id, label, default or {1,1,1,1}, opts or {})
+        menu.add_colorpicker(M.TAB, group, id, label, default or {1,1,1,1})
     end
     function M.button(group, id, label, callback)
         if not menu or not menu.add_button then return end
-        pcall(menu.add_button, M.TAB, group, id, label, callback)
+        menu.add_button(M.TAB, group, id, label, callback)
     end
     function M.label(group, text)
-        if menu and menu.add_label then pcall(menu.add_label, M.TAB, group, text) end
+        if menu and menu.add_label then menu.add_label(M.TAB, group, text) end
     end
     function M.sep(group)
-        if menu and menu.add_separator then pcall(menu.add_separator, M.TAB, group) end
+        if menu and menu.add_separator then menu.add_separator(M.TAB, group) end
     end
-    function M.input(group, id, label, default)
-        if menu and menu.add_input then pcall(menu.add_input, M.TAB, group, id, label, default or "") end
-    end
-    function M.multicombo(group, id, label, options, defaults, opts)
-        if menu and menu.add_multicombo then
-            pcall(menu.add_multicombo, M.TAB, group, id, label, options, defaults, opts or {})
+    function M.hotkey(group, id, label, default)
+        if menu and menu.add_hotkey then
+            menu.add_hotkey(M.TAB, group, id, label, default or false)
+        else
+            M.toggle(group, id, label, default)
         end
-    end
-    function M.keybind(group, id, label, default, opts)
-        opts = opts or {}
-        opts.show_mode = opts.show_mode or false
-        opts.key = opts.key or 0
-        M.toggle(group, id, label, default, opts)
-        local mode_id = id .. "_mode"
-        M.combo(group, mode_id, label .. " Mode", {"Always", "Hold", "Toggle"}, 0, {parent = id})
     end
 
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- FEATURE: Register all BobaV1 menu controls
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- Register all menu controls
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["boba.register_menu"] = (function()
     local M = {}
     local bmenu = BobaV1.require("boba.menu")
@@ -888,8 +825,7 @@ BobaV1._mods["boba.register_menu"] = (function()
     function M.register()
         bmenu.init()
 
-        -- в•ђв•ђв•ђ SILENT AIM GROUP в•ђв•ђв•ђ
-        bmenu.keybind(G.SILENT_AIM, "boba_silent_aim", "Silent Aim", false)
+        bmenu.hotkey(G.SILENT_AIM, "boba_silent_aim", "Silent Aim", false)
         bmenu.combo(G.SILENT_AIM, "boba_silent_target_type", "Target Type", TARGET_TYPES, 0)
         bmenu.combo(G.SILENT_AIM, "boba_silent_bone", "Target Bone", BONES, 1)
         bmenu.slider(G.SILENT_AIM, "boba_silent_fov", "FOV", 10, 360, 120)
@@ -898,24 +834,23 @@ BobaV1._mods["boba.register_menu"] = (function()
         bmenu.toggle(G.SILENT_AIM, "boba_silent_hitscan", "Hitscan", false)
         bmenu.toggle(G.SILENT_AIM, "boba_silent_sticky", "Sticky Target", false)
         bmenu.sep(G.SILENT_AIM)
-        bmenu.label(G.SILENT_AIM, "в”Ђв”Ђ Visuals в”Ђв”Ђ")
+        bmenu.label(G.SILENT_AIM, "── Visuals ──")
         bmenu.toggle(G.SILENT_AIM, "boba_silent_draw_fov", "Draw FOV", true)
         bmenu.combo(G.SILENT_AIM, "boba_silent_fov_style", "FOV Style", FOV_STYLES, 0)
         bmenu.toggle(G.SILENT_AIM, "boba_silent_target_line", "Target Line", false)
         bmenu.sep(G.SILENT_AIM)
-        bmenu.label(G.SILENT_AIM, "в”Ђв”Ђ Filters в”Ђв”Ђ")
+        bmenu.label(G.SILENT_AIM, "── Filters ──")
         bmenu.toggle(G.SILENT_AIM, "boba_silent_ignore_team", "Ignore Teammates", true)
         bmenu.toggle(G.SILENT_AIM, "boba_silent_ignore_downed", "Ignore Downed", true)
         bmenu.toggle(G.SILENT_AIM, "boba_silent_visible_only", "Visible Only", false)
         bmenu.sep(G.SILENT_AIM)
-        bmenu.label(G.SILENT_AIM, "в”Ђв”Ђ Bullet в”Ђв”Ђ")
-        bmenu.keybind(G.SILENT_AIM, "boba_bullet_enabled", "Bullet Manip", false)
+        bmenu.label(G.SILENT_AIM, "── Bullet ──")
+        bmenu.hotkey(G.SILENT_AIM, "boba_bullet_enabled", "Bullet Manip", false)
         bmenu.toggle(G.SILENT_AIM, "boba_bullet_body_peek", "Body Peek", false)
         bmenu.toggle(G.SILENT_AIM, "boba_thick_bullet", "Thick Bullet", false)
         bmenu.slider(G.SILENT_AIM, "boba_thick_bullet_mult", "Thick Multiplier", 1, 5, 2)
 
-        -- в•ђв•ђв•ђ GUN MODS GROUP в•ђв•ђв•ђ
-        bmenu.keybind(G.GUN_MODS, "boba_gunmods", "Gun Mods", false)
+        bmenu.hotkey(G.GUN_MODS, "boba_gunmods", "Gun Mods", false)
         bmenu.toggle(G.GUN_MODS, "boba_gm_recoil", "No Recoil", false)
         bmenu.slider(G.GUN_MODS, "boba_gm_recoil_pct", "Recoil Reduction %", 0, 100, 100)
         bmenu.toggle(G.GUN_MODS, "boba_gm_spread", "No Spread", false)
@@ -929,74 +864,69 @@ BobaV1._mods["boba.register_menu"] = (function()
         bmenu.slider(G.GUN_MODS, "boba_gm_range_mult", "Range Multiplier", 1, 5, 2)
         bmenu.toggle(G.GUN_MODS, "boba_gm_double_tap", "Double Tap", false)
         bmenu.sep(G.GUN_MODS)
-        bmenu.label(G.GUN_MODS, "в”Ђв”Ђ Tracers в”Ђв”Ђ")
-        bmenu.keybind(G.GUN_MODS, "boba_tracers", "Tracers", false)
+        bmenu.label(G.GUN_MODS, "── Tracers ──")
+        bmenu.hotkey(G.GUN_MODS, "boba_tracers", "Tracers", false)
         bmenu.combo(G.GUN_MODS, "boba_tracers_style", "Style", {"Line","Arc","Curve","Beam"}, 0)
-        bmenu.slider(G.GUN_MODS, "boba_tracers_lifetime", "Lifetime", 0.1, 5, 1)
+        bmenu.slider(G.GUN_MODS, "boba_tracers_lifetime", "Lifetime", 0.1, 5, 1, true)
         bmenu.slider(G.GUN_MODS, "boba_tracers_thickness", "Thickness", 1, 6, 2)
         bmenu.toggle(G.GUN_MODS, "boba_tracers_glow", "Glow", false)
         bmenu.toggle(G.GUN_MODS, "boba_tracers_rainbow", "Rainbow", false)
 
-        -- в•ђв•ђв•ђ VISUALS GROUP в•ђв•ђв•ђ
-        bmenu.keybind(G.VISUALS, "boba_player_esp", "Player ESP", false)
+        bmenu.hotkey(G.VISUALS, "boba_player_esp", "Player ESP", false)
         bmenu.combo(G.VISUALS, "boba_player_box_mode", "Box Mode", BOX_MODES, 0)
         bmenu.toggle(G.VISUALS, "boba_player_health", "Health Bar", true)
         bmenu.toggle(G.VISUALS, "boba_player_skeleton", "Skeleton", true)
         bmenu.toggle(G.VISUALS, "boba_player_name", "Show Name", true)
         bmenu.toggle(G.VISUALS, "boba_player_held", "Show Held Item", true)
         bmenu.toggle(G.VISUALS, "boba_player_distance", "Show Distance", true)
-        bmenu.toggle(G.VISUALS, "boba_player_clan", "Clan Tag", false)
         bmenu.slider(G.VISUALS, "boba_player_range", "Range", 50, 2000, 600)
         bmenu.sep(G.VISUALS)
-        bmenu.label(G.VISUALS, "в”Ђв”Ђ Flags в”Ђв”Ђ")
+        bmenu.label(G.VISUALS, "── Flags ──")
         bmenu.toggle(G.VISUALS, "boba_flag_downed", "Downed", true)
         bmenu.toggle(G.VISUALS, "boba_flag_staff", "Staff", true)
-        bmenu.toggle(G.VISUALS, "boba_flag_cheater", "Cheater", true)
         bmenu.sep(G.VISUALS)
-        bmenu.label(G.VISUALS, "в”Ђв”Ђ Crosshair в”Ђв”Ђ")
+        bmenu.label(G.VISUALS, "── Crosshair ──")
         bmenu.toggle(G.VISUALS, "boba_crosshair", "Custom Crosshair", false)
         bmenu.combo(G.VISUALS, "boba_crosshair_type", "Type", {"Cross","Dot","Circle","T-Shape"}, 0)
         bmenu.slider(G.VISUALS, "boba_crosshair_size", "Size", 1, 20, 6)
         bmenu.slider(G.VISUALS, "boba_crosshair_gap", "Gap", 0, 15, 3)
         bmenu.sep(G.VISUALS)
-        bmenu.label(G.VISUALS, "в”Ђв”Ђ Aimbot в”Ђв”Ђ")
-        bmenu.keybind(G.VISUALS, "boba_aimbot", "Aimbot", false)
+        bmenu.label(G.VISUALS, "── Aimbot ──")
+        bmenu.hotkey(G.VISUALS, "boba_aimbot", "Aimbot", false)
         bmenu.combo(G.VISUALS, "boba_aim_bone", "Bone", BONES, 1)
         bmenu.slider(G.VISUALS, "boba_aim_fov", "FOV", 10, 360, 120)
         bmenu.slider(G.VISUALS, "boba_aim_smooth", "Smooth", 1, 20, 5)
         bmenu.toggle(G.VISUALS, "boba_aim_prediction", "Auto Prediction", true)
 
-        -- в•ђв•ђв•ђ WORLD GROUP в•ђв•ђв•ђ
-        bmenu.keybind(G.WORLD, "boba_world_esp", "World ESP", false)
+        bmenu.hotkey(G.WORLD, "boba_world_esp", "World ESP", false)
         bmenu.toggle(G.WORLD, "boba_world_stone", "Stone Nodes", true)
         bmenu.toggle(G.WORLD, "boba_world_metal", "Metal Nodes", true)
         bmenu.toggle(G.WORLD, "boba_world_phosphate", "Phosphate", true)
         bmenu.slider(G.WORLD, "boba_world_range", "Range", 50, 1000, 300)
         bmenu.sep(G.WORLD)
-        bmenu.label(G.WORLD, "в”Ђв”Ђ Loot в”Ђв”Ђ")
-        bmenu.keybind(G.WORLD, "boba_loot_esp", "Loot ESP", false)
+        bmenu.label(G.WORLD, "── Loot ──")
+        bmenu.hotkey(G.WORLD, "boba_loot_esp", "Loot ESP", false)
         bmenu.toggle(G.WORLD, "boba_loot_crates", "Crates", true)
         bmenu.toggle(G.WORLD, "boba_loot_care_package", "Care Packages", true)
         bmenu.toggle(G.WORLD, "boba_loot_body_bag", "Body Bags", true)
         bmenu.slider(G.WORLD, "boba_loot_range", "Range", 50, 1000, 400)
         bmenu.sep(G.WORLD)
-        bmenu.label(G.WORLD, "в”Ђв”Ђ NPC в”Ђв”Ђ")
-        bmenu.keybind(G.WORLD, "boba_npc_esp", "NPC ESP", false)
+        bmenu.label(G.WORLD, "── NPC ──")
+        bmenu.hotkey(G.WORLD, "boba_npc_esp", "NPC ESP", false)
         bmenu.toggle(G.WORLD, "boba_npc_soldier", "Soldiers", true)
         bmenu.toggle(G.WORLD, "boba_npc_bosses", "Bosses", true)
         bmenu.toggle(G.WORLD, "boba_npc_heli", "Attack Heli", true)
         bmenu.slider(G.WORLD, "boba_npc_range", "Range", 50, 1000, 500)
         bmenu.sep(G.WORLD)
-        bmenu.label(G.WORLD, "в”Ђв”Ђ Base в”Ђв”Ђ")
-        bmenu.keybind(G.WORLD, "boba_base_esp", "Base ESP", false)
+        bmenu.label(G.WORLD, "── Base ──")
+        bmenu.hotkey(G.WORLD, "boba_base_esp", "Base ESP", false)
         bmenu.toggle(G.WORLD, "boba_base_tc", "Tool Cupboard", true)
         bmenu.toggle(G.WORLD, "boba_base_turrets", "Turrets", true)
         bmenu.toggle(G.WORLD, "boba_base_doors", "Doors", true)
         bmenu.toggle(G.WORLD, "boba_base_xray", "X-Ray Mode", false)
         bmenu.slider(G.WORLD, "boba_base_range", "Range", 50, 500, 250)
 
-        -- в•ђв•ђв•ђ RADAR GROUP в•ђв•ђв•ђ
-        bmenu.keybind(G.RADAR, "boba_map", "Minimap", false)
+        bmenu.hotkey(G.RADAR, "boba_map", "Minimap", false)
         bmenu.slider(G.RADAR, "boba_map_zoom", "Zoom", 1, 5, 2)
         bmenu.slider(G.RADAR, "boba_map_size", "Size", 100, 400, 200)
         bmenu.slider(G.RADAR, "boba_map_opacity", "Opacity %", 10, 100, 85)
@@ -1004,50 +934,49 @@ BobaV1._mods["boba.register_menu"] = (function()
         bmenu.toggle(G.RADAR, "boba_map_npcs", "Show NPCs", true)
         bmenu.toggle(G.RADAR, "boba_map_loot", "Show Loot", true)
         bmenu.sep(G.RADAR)
-        bmenu.label(G.RADAR, "в”Ђв”Ђ Waypoints в”Ђв”Ђ")
-        bmenu.keybind(G.RADAR, "boba_waypoints", "Waypoints", false)
+        bmenu.label(G.RADAR, "── Waypoints ──")
+        bmenu.hotkey(G.RADAR, "boba_waypoints", "Waypoints", false)
         bmenu.toggle(G.RADAR, "boba_wp_beacon", "Beacon", true)
         bmenu.sep(G.RADAR)
-        bmenu.label(G.RADAR, "в”Ђв”Ђ Raids в”Ђв”Ђ")
-        bmenu.keybind(G.RADAR, "boba_raid_alerts", "Raid Alerts", false)
+        bmenu.label(G.RADAR, "── Raids ──")
+        bmenu.hotkey(G.RADAR, "boba_raid_alerts", "Raid Alerts", false)
         bmenu.slider(G.RADAR, "boba_raid_range", "Alert Range", 100, 2000, 800)
 
-        -- в•ђв•ђв•ђ MISC GROUP в•ђв•ђв•ђ
-        bmenu.label(G.MISC, "в”Ђв”Ђ Movement в”Ђв”Ђ")
-        bmenu.keybind(G.MISC, "boba_fly", "Fly", false)
+        bmenu.label(G.MISC, "── Movement ──")
+        bmenu.hotkey(G.MISC, "boba_fly", "Fly", false)
         bmenu.slider(G.MISC, "boba_fly_speed", "Fly Speed", 1, 20, 5)
         bmenu.toggle(G.MISC, "boba_fly_noclip", "Noclip", true)
-        bmenu.keybind(G.MISC, "boba_bhop", "Bunny Hop", false)
-        bmenu.keybind(G.MISC, "boba_spider", "Spider Climb", false)
+        bmenu.hotkey(G.MISC, "boba_bhop", "Bunny Hop", false)
+        bmenu.hotkey(G.MISC, "boba_spider", "Spider Climb", false)
         bmenu.slider(G.MISC, "boba_spider_speed", "Spider Speed", 18, 30, 18)
         bmenu.sep(G.MISC)
-        bmenu.label(G.MISC, "в”Ђв”Ђ Combat в”Ђв”Ђ")
-        bmenu.keybind(G.MISC, "boba_antifling", "Anti-Fling", false)
-        bmenu.keybind(G.MISC, "boba_fling", "Fling", false)
+        bmenu.label(G.MISC, "── Combat ──")
+        bmenu.hotkey(G.MISC, "boba_antifling", "Anti-Fling", false)
+        bmenu.hotkey(G.MISC, "boba_fling", "Fling", false)
         bmenu.slider(G.MISC, "boba_fling_fov", "Fling FOV", 10, 180, 90)
         bmenu.sep(G.MISC)
-        bmenu.label(G.MISC, "в”Ђв”Ђ Anti-Aim в”Ђв”Ђ")
-        bmenu.keybind(G.MISC, "boba_antiaim", "Anti-Aim", false)
+        bmenu.label(G.MISC, "── Anti-Aim ──")
+        bmenu.hotkey(G.MISC, "boba_antiaim", "Anti-Aim", false)
         bmenu.combo(G.MISC, "boba_aa_yaw", "Yaw Mode", {"Backward","Spin","Jitter","Random"}, 0)
         bmenu.slider(G.MISC, "boba_aa_spin_speed", "Spin Speed", 1, 20, 5)
         bmenu.sep(G.MISC)
-        bmenu.label(G.MISC, "в”Ђв”Ђ Desync в”Ђв”Ђ")
-        bmenu.keybind(G.MISC, "boba_desync", "Desync", false)
-        bmenu.keybind(G.MISC, "boba_fakeduck", "Fake Duck", false)
-        bmenu.slider(G.MISC, "boba_fakeduck_height", "Duck Height", 0.5, 2.5, 1.4)
+        bmenu.label(G.MISC, "── Desync ──")
+        bmenu.hotkey(G.MISC, "boba_desync", "Desync", false)
+        bmenu.hotkey(G.MISC, "boba_fakeduck", "Fake Duck", false)
+        bmenu.slider(G.MISC, "boba_fakeduck_height", "Duck Height", 0.5, 2.5, 1.4, true)
         bmenu.sep(G.MISC)
-        bmenu.label(G.MISC, "в”Ђв”Ђ Other в”Ђв”Ђ")
+        bmenu.label(G.MISC, "── Other ──")
         bmenu.toggle(G.MISC, "boba_anti_afk", "Anti-AFK", false)
-        bmenu.keybind(G.MISC, "boba_autofarm", "Autofarm", false)
+        bmenu.hotkey(G.MISC, "boba_autofarm", "Autofarm", false)
         bmenu.slider(G.MISC, "boba_autofarm_range", "Farm Range", 20, 200, 80)
     end
 
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
 -- FEATURE: Silent Aim Logic
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["features.silent_aim"] = (function()
     local settings = BobaV1.require("core.settings")
     local env = BobaV1.require("core.env")
@@ -1058,19 +987,11 @@ BobaV1._mods["features.silent_aim"] = (function()
     local math_util = BobaV1.require("core.math_util")
     local draw_util = BobaV1.require("core.draw_util")
     local M = {}
-
     local current_target = nil
-
-    local function get_fov_to(sx, sy, tx, ty)
-        local dx = tx - sx
-        local dy = ty - sy
-        return math.sqrt(dx * dx + dy * dy)
-    end
 
     local function find_target()
         if not settings.enabled("boba_silent_aim") then return nil end
         if not silent_ray.available() then return nil end
-
         local lp = env.get_local_player()
         if not lp then return nil end
         local players = env.get_players()
@@ -1081,33 +1002,25 @@ BobaV1._mods["features.silent_aim"] = (function()
         local bone_name = esp_util.AIM_BONES[settings.num("boba_silent_bone", 1) + 1] or "Head"
         local ignore_team = settings.bool("boba_silent_ignore_team", true)
         local ignore_downed = settings.bool("boba_silent_ignore_downed", true)
-
         local best = nil
         local best_fov = max_fov
-
         for _, player in ipairs(players) do
-            if player ~= lp then
-                if entity_props.is_alive(player) then
-                    if not (ignore_team and env.same_team(lp, player)) then
-                        if not (ignore_downed and entity_props.is_downed(player)) then
-                            local pos = entity_props.get_bone_position(player, bone_name)
-                            if not pos then pos = entity_props.get_position(player) end
-                            if pos then
-                                local my_pos = entity_props.get_position(lp)
-                                if my_pos then
-                                    local dist = math_util.distance3(
-                                        pos.x - my_pos.x,
-                                        pos.y - my_pos.y,
-                                        pos.z - my_pos.z
-                                    )
-                                    if dist <= max_dist then
-                                        local sx, sy, vis = esp_util.w2s(pos.x, pos.y, pos.z)
-                                        if vis then
-                                            local fov = get_fov_to(cx, cy, sx, sy)
-                                            if fov < best_fov then
-                                                best_fov = fov
-                                                best = {player = player, pos = pos, dist = dist, fov = fov}
-                                            end
+            if player ~= lp and entity_props.is_alive(player) then
+                if not (ignore_team and env.same_team(lp, player)) then
+                    if not (ignore_downed and entity_props.is_downed(player)) then
+                        local pos = entity_props.get_bone_position(player, bone_name)
+                        if not pos then pos = entity_props.get_position(player) end
+                        if pos then
+                            local my_pos = entity_props.get_position(lp)
+                            if my_pos then
+                                local dist = math_util.distance3(pos.x - my_pos.x, pos.y - my_pos.y, pos.z - my_pos.z)
+                                if dist <= max_dist then
+                                    local sx, sy, vis = esp_util.w2s(pos.x, pos.y, pos.z)
+                                    if vis then
+                                        local fov = math.sqrt((sx-cx)*(sx-cx) + (sy-cy)*(sy-cy))
+                                        if fov < best_fov then
+                                            best_fov = fov
+                                            best = {player = player, pos = pos, dist = dist, fov = fov}
                                         end
                                     end
                                 end
@@ -1126,22 +1039,17 @@ BobaV1._mods["features.silent_aim"] = (function()
             current_target = nil
             return
         end
-
         local target = find_target()
         if not target then
             if silent_ray.is_tracking() then silent_ray.stop() end
             current_target = nil
             return
         end
-
-        -- Hit chance check
         local hit_chance = settings.num("boba_silent_hit_chance", 100)
         if hit_chance < 100 and math.random(1, 100) > hit_chance then
             silent_ray.stop()
             return
         end
-
-        -- Predict if moving
         local aim_pos = target.pos
         if settings.bool("boba_aim_prediction", true) then
             local vel = entity_props.get_velocity(target.player)
@@ -1150,7 +1058,6 @@ BobaV1._mods["features.silent_aim"] = (function()
                     entity_props.get_position(env.get_local_player()) or {x=0,y=0,z=0})
             end
         end
-
         silent_ray.set_target(nil, aim_pos)
         current_target = target
     end
@@ -1160,14 +1067,10 @@ BobaV1._mods["features.silent_aim"] = (function()
         local sw, sh = draw_util.screen_size()
         local cx, cy = sw * 0.5, sh * 0.5
         local boba_amber = {0.83, 0.65, 0.46, 0.6}
-
-        -- Draw FOV circle
         if settings.bool("boba_silent_draw_fov", true) then
             local fov = settings.num("boba_silent_fov", 120)
             draw_util.circle(cx, cy, fov, boba_amber, false, 48)
         end
-
-        -- Draw target line
         if current_target and settings.bool("boba_silent_target_line", false) then
             local pos = current_target.pos
             local sx, sy, vis = esp_util.w2s(pos.x, pos.y, pos.z)
@@ -1180,9 +1083,9 @@ BobaV1._mods["features.silent_aim"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
 -- FEATURE: Player ESP
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["features.player_esp"] = (function()
     local settings = BobaV1.require("core.settings")
     local env = BobaV1.require("core.env")
@@ -1191,8 +1094,7 @@ BobaV1._mods["features.player_esp"] = (function()
     local draw_util = BobaV1.require("core.draw_util")
     local math_util = BobaV1.require("core.math_util")
     local M = {}
-
-    local BOBA_AMBER = {0.83, 0.65, 0.46, 1}
+    local BOBA = {0.83, 0.65, 0.46, 1}
     local WHITE = {1, 1, 1, 1}
     local RED = {1, 0.42, 0.42, 1}
     local GREEN = {0.32, 0.81, 0.40, 1}
@@ -1206,12 +1108,6 @@ BobaV1._mods["features.player_esp"] = (function()
         local max_range = settings.num("boba_player_range", 600)
         local my_pos = entity_props.get_position(lp)
         if not my_pos then return end
-        local show_name = settings.bool("boba_player_name", true)
-        local show_health = settings.bool("boba_player_health", true)
-        local show_distance = settings.bool("boba_player_distance", true)
-        local show_held = settings.bool("boba_player_held", true)
-        local show_skeleton = settings.bool("boba_player_skeleton", true)
-
         for _, player in ipairs(players) do
             if player ~= lp and entity_props.is_alive(player) then
                 local pos = entity_props.get_position(player)
@@ -1220,24 +1116,18 @@ BobaV1._mods["features.player_esp"] = (function()
                     if dist <= max_range then
                         local head_pos = entity_props.get_bone_position(player, "Head")
                         if not head_pos then head_pos = {x=pos.x, y=pos.y+2.5, z=pos.z} end
-
                         local sx_top, sy_top, vis_top = esp_util.w2s(head_pos.x, head_pos.y + 0.35, head_pos.z)
                         local sx_bot, sy_bot, vis_bot = esp_util.w2s(pos.x, pos.y - 2.5, pos.z)
-
                         if vis_top or vis_bot then
                             local h = math.abs(sy_bot - sy_top)
                             local w = h * 0.55
                             local cx = (sx_top + sx_bot) * 0.5
                             local top = math.min(sy_top, sy_bot)
-
-                            -- Color based on team
-                            local col = env.same_team(lp, player) and GREEN or BOBA_AMBER
-
-                            -- Box
+                            local col = env.same_team(lp, player) and GREEN or BOBA
                             local box_mode = settings.num("boba_player_box_mode", 0)
-                            if box_mode == 0 then -- 2D
+                            if box_mode == 0 then
                                 draw_util.rect(cx - w*0.5, top, w, h, col, 0, 1)
-                            elseif box_mode == 1 then -- Corner
+                            elseif box_mode == 1 then
                                 local corner = math.max(4, h * 0.2)
                                 local x1, y1 = cx - w*0.5, top
                                 local x2, y2 = cx + w*0.5, top + h
@@ -1250,9 +1140,7 @@ BobaV1._mods["features.player_esp"] = (function()
                                 draw_util.line(x2, y2, x2 - corner, y2, col, 1)
                                 draw_util.line(x2, y2, x2, y2 - corner, col, 1)
                             end
-
-                            -- Health bar
-                            if show_health then
+                            if settings.bool("boba_player_health", true) then
                                 local hp, maxhp = entity_props.get_health(player)
                                 if hp and maxhp and maxhp > 0 then
                                     local pct = math_util.clamp(hp / maxhp, 0, 1)
@@ -1263,46 +1151,30 @@ BobaV1._mods["features.player_esp"] = (function()
                                     draw_util.rect_filled(bar_x, top + h - bar_h, 2, bar_h, hcol, 0)
                                 end
                             end
-
-                            -- Info text
-                            local info_y = top - 14
-                            if show_name then
-                                local name = entity_props.get_display_name(player)
-                                draw_util.text_centered(cx, info_y, name, WHITE, 12)
-                                info_y = info_y - 12
+                            if settings.bool("boba_player_name", true) then
+                                draw_util.text_centered(cx, top - 14, entity_props.get_display_name(player), WHITE, 12)
                             end
-                            if show_distance then
-                                draw_util.text_centered(cx, top + h + 3,
-                                    string.format("%.0fm", dist),
-                                    {0.55, 0.54, 0.60, 1}, 11)
+                            if settings.bool("boba_player_distance", true) then
+                                draw_util.text_centered(cx, top + h + 3, string.format("%.0fm", dist), {0.55, 0.54, 0.60, 1}, 11)
                             end
-                            if show_held then
+                            if settings.bool("boba_player_held", true) then
                                 local held = entity_props.get_held_item(player)
                                 if held then
-                                    draw_util.text_centered(cx, top + h + 15,
-                                        held, BOBA_AMBER, 11)
+                                    draw_util.text_centered(cx, top + h + 15, held, BOBA, 11)
                                 end
                             end
-
-                            -- Flags
                             if settings.bool("boba_flag_downed", true) and entity_props.is_downed(player) then
-                                draw_util.text_centered(cx, info_y, "DOWNED", RED, 10)
-                                info_y = info_y - 11
+                                draw_util.text_centered(cx, top - 26, "DOWNED", RED, 10)
                             end
-
-                            -- Skeleton
-                            if show_skeleton then
+                            if settings.bool("boba_player_skeleton", true) then
                                 local bones = {}
                                 local char = env.get_character(player)
                                 if char then
-                                    for _, bone_name in ipairs({"Head","UpperTorso","LowerTorso",
-                                        "LeftUpperArm","RightUpperArm","LeftLowerArm","RightLowerArm",
-                                        "LeftHand","RightHand","LeftUpperLeg","RightUpperLeg",
-                                        "LeftLowerLeg","RightLowerLeg","LeftFoot","RightFoot"}) do
-                                        local bp = entity_props.get_bone_position(player, bone_name)
+                                    for _, bn in ipairs({"Head","UpperTorso","LowerTorso","LeftUpperArm","RightUpperArm","LeftLowerArm","RightLowerArm","LeftHand","RightHand","LeftUpperLeg","RightUpperLeg","LeftLowerLeg","RightLowerLeg","LeftFoot","RightFoot"}) do
+                                        local bp = entity_props.get_bone_position(player, bn)
                                         if bp then
                                             local bsx, bsy, bvis = esp_util.w2s(bp.x, bp.y, bp.z)
-                                            if bvis then bones[bone_name] = {x=bsx, y=bsy} end
+                                            if bvis then bones[bn] = {x=bsx, y=bsy} end
                                         end
                                     end
                                 end
@@ -1318,9 +1190,9 @@ BobaV1._mods["features.player_esp"] = (function()
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
 -- FEATURE: Crosshair
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["features.crosshair"] = (function()
     local settings = BobaV1.require("core.settings")
     local draw_util = BobaV1.require("core.draw_util")
@@ -1332,20 +1204,18 @@ BobaV1._mods["features.crosshair"] = (function()
         local size = settings.num("boba_crosshair_size", 6)
         local gap = settings.num("boba_crosshair_gap", 3)
         local col = {0.83, 0.65, 0.46, 1}
-        -- Cross
         draw_util.line(cx - size - gap, cy, cx - gap, cy, col, 2)
         draw_util.line(cx + gap, cy, cx + size + gap, cy, col, 2)
         draw_util.line(cx, cy - size - gap, cx, cy - gap, col, 2)
         draw_util.line(cx, cy + gap, cx, cy + size + gap, col, 2)
-        -- Dot
         draw_util.circle(cx, cy, 1.5, col, true)
     end
     return M
 end)()
 
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
--- MAIN LOOP вЂ” Wire everything together
--- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+-- ═══════════════════════════════════════════════════════
+-- MAIN LOOP
+-- ═══════════════════════════════════════════════════════
 BobaV1._mods["boba.main"] = (function()
     local M = {}
     local notify = BobaV1.require("core.notify")
@@ -1363,123 +1233,22 @@ BobaV1._mods["boba.main"] = (function()
     end
 
     function M.boot()
-        print("[BobaV1] API Check:")
-        print("  menu: " .. tostring(menu ~= nil))
-        print("  draw: " .. tostring(draw ~= nil))
-        print("  entity: " .. tostring(entity ~= nil))
-        print("  raycast: " .. tostring(raycast ~= nil))
-        print("  camera: " .. tostring(camera ~= nil))
-        print("  utility: " .. tostring(utility ~= nil))
-        print("  callbacks: " .. tostring(callbacks ~= nil))
-        print("  client: " .. tostring(client ~= nil))
-        print("  exploits: " .. tostring(exploits ~= nil))
-
-        if menu then
-            local fns = {}
-            for k, v in pairs(menu) do
-                if type(v) == "function" then fns[#fns+1] = k end
-            end
-            print("  menu funcs: " .. table.concat(fns, ", "))
-        end
-        if draw then
-            local fns = {}
-            for k, v in pairs(draw) do
-                if type(v) == "function" then fns[#fns+1] = k end
-            end
-            print("  draw funcs: " .. table.concat(fns, ", "))
-        end
-        if callbacks then
-            local fns = {}
-            for k, v in pairs(callbacks) do
-                if type(v) == "function" then fns[#fns+1] = k end
-            end
-            print("  callbacks funcs: " .. table.concat(fns, ", "))
-        end
-
         register_menu.register()
         print("[BobaV1] Menu registered")
         notify.success("BobaV1 v" .. BobaV1.VERSION .. " loaded!", 4000)
 
         local hooked = false
 
-        if not hooked and callbacks and type(callbacks) == "table" then
-            if callbacks.register and type(callbacks.register) == "function" then
-                print("[BobaV1] Hooking: callbacks.register('on_paint')")
-                callbacks.register("on_paint", render_frame)
-                hooked = true
-            end
-            if not hooked and callbacks.add and type(callbacks.add) == "function" then
-                print("[BobaV1] Hooking: callbacks.add('on_paint')")
-                callbacks.add("on_paint", render_frame)
-                hooked = true
-            end
-        end
-
-        if not hooked and draw and draw.register and type(draw.register) == "function" then
-            print("[BobaV1] Hooking: draw.register")
-            draw.register(render_frame)
+        if not hooked and draw and draw.callback and type(draw.callback) == "function" then
+            print("[BobaV1] Hooking: draw.callback")
+            draw.callback(render_frame)
             hooked = true
         end
 
-        if not hooked and menu then
-            if menu.register_draw and type(menu.register_draw) == "function" then
-                print("[BobaV1] Hooking: menu.register_draw")
-                menu.register_draw(render_frame)
-                hooked = true
-            end
-            if not hooked and menu.on_draw and type(menu.on_draw) == "function" then
-                print("[BobaV1] Hooking: menu.on_draw")
-                menu.on_draw(render_frame)
-                hooked = true
-            end
-        end
-
-        if not hooked and client and client.set_event_callback then
-            print("[BobaV1] Hooking: client.set_event_callback")
-            client.set_event_callback("paint", render_frame)
+        if not hooked and menu and menu.set_callback and type(menu.set_callback) == "function" then
+            print("[BobaV1] Hooking: menu.set_callback")
+            menu.set_callback(render_frame)
             hooked = true
-        end
-
-        if not hooked then
-            if type(register_callback) == "function" then
-                print("[BobaV1] Hooking: register_callback global")
-                register_callback("on_paint", render_frame)
-                hooked = true
-            end
-        end
-
-        if not hooked then
-            print("[BobaV1] No callback API, trying RunService...")
-            local ok, rs = pcall(function()
-                if game and game.GetService then
-                    return game:GetService("RunService")
-                end
-            end)
-            if ok and rs then
-                if rs.RenderStepped then
-                    rs.RenderStepped:Connect(render_frame)
-                    hooked = true
-                    print("[BobaV1] Hooked RunService.RenderStepped")
-                elseif rs.Heartbeat then
-                    rs.Heartbeat:Connect(render_frame)
-                    hooked = true
-                    print("[BobaV1] Hooked RunService.Heartbeat")
-                end
-            end
-        end
-
-        if not hooked then
-            print("[BobaV1] FALLBACK: using while loop")
-            local wfn = (task and task.wait) or wait
-            if wfn then
-                spawn(function()
-                    while true do
-                        render_frame()
-                        wfn(0.016)
-                    end
-                end)
-                hooked = true
-            end
         end
 
         print("[BobaV1] Hook status: " .. tostring(hooked))
@@ -1489,11 +1258,5 @@ BobaV1._mods["boba.main"] = (function()
     return M
 end)()
 
-print("в•”в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•—")
-print("в•‘         BobaV1 v" .. BobaV1.VERSION .. "              в•‘")
-print("в•‘        Fallen Survival              в•‘")
-print("в•‘     Press Insert to toggle menu     в•‘")
-print("в•љв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ќ")
-
+print("[BobaV1] v" .. BobaV1.VERSION .. " | Fallen Survival")
 BobaV1.require("boba.main").boot()
-
